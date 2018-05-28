@@ -1,0 +1,21 @@
+Year ,Serious,Significant,Fatalities ,Injuries ,Pre_Post
+1994,9,34,0,15,Before
+1995,7,22,0,7,Before
+1996,6,34,1,5,Before
+1997,4,26,1,5,Before
+1998,11,40,1,11,Before
+1999,5,34,2,8,Before
+2000,7,45,15,16,Before
+2001,4,45,2,5,Before
+2002,4,40,1,4,Before
+2003,8,61,1,8,Before
+2004,2,43,0,2,After
+2005,5,63,0,5,After
+2006,6,59,3,4,After
+2007,8,55,2,7,After
+2008,5,47,0,5,After
+2009,6,60,0,11,After
+2010,6,55,10,61,After
+2011,1,69,0,1,After
+2012,3,47,0,7,After
+2013,1,60,0,2,After
