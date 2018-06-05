@@ -6,8 +6,8 @@ require(dplyr)
 # Setting up the data
 byyear <- read.csv("byyear.csv")
 byy <- byyear %>% group_by(BA) %>%summarise(inj=sum(Injuries),fat=sum(Fatalities), ser=sum(Serious),sig=sum(Significant), count=length(Injuries))
-x <- c(byy[2,2], byy[1,2]) 
-t <- c(byy[2,6], byy[1,6]) 
+x <- c(byy[[2,2]], byy[[1,2]]) 
+t <- c(byy[[2,6]], byy[[1,6]]) 
 rm(samples_inj)
 
 # The model string written in the JAGS language
@@ -36,8 +36,8 @@ injMCMC$metric <- "Injuries"
 # Setting up the data
 #byyear <- read.csv("byyear.csv")
 #byy <- byyear %>% group_by(BA) %>%summarise(inj=sum(Injuries),fat=sum(Fatalities), ser=sum(Serious),sig=sum(Significant))
-x <- c(byy[2,3], byy[1,3]) 
-t <- c(byy[2,6], byy[1,6])
+x <- c(byy[[2,3]], byy[[1,3]]) 
+t <- c(byy[[2,6]], byy[[1,6]])
 rm(samples_sig)
 
 # The model string written in the JAGS language
@@ -64,8 +64,8 @@ fatMCMC$metric <- "Fatalities"
 # Setting up the data
 #byyear <- read.csv("byyear.csv")
 #byy <- byyear %>% group_by(BA) %>%summarise(inj=sum(Injuries),fat=sum(Fatalities), ser=sum(Serious),sig=sum(Significant))
-x <- c(byy[2,5], byy[1,5]) 
-t <- c(byy[2,6], byy[1,6])
+x <- c(byy[[2,5]], byy[[1,5]]) 
+t <- c(byy[[2,6]], byy[[1,6]])
 rm(samples_sig)
 
 # The model string written in the JAGS language
@@ -91,8 +91,8 @@ sigMCMC$metric <- "Significant"
 # Setting up the data
 #byyear <- read.csv("byyear.csv")
 #byy <- byyear %>% group_by(BA) %>%summarise(inj=sum(Injuries),fat=sum(Fatalities), ser=sum(Serious),sig=sum(Significant))
-x <- c(byy[2,4], byy[1,4]) 
-t <- c(byy[2,6], byy[1,6])
+x <- c(byy[[2,4]], byy[[1,4]]) 
+t <- c(byy[[2,6]], byy[[1,6]])
 rm(samples_ser)
 
 # The model string written in the JAGS language
