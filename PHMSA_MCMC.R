@@ -37,7 +37,7 @@ injMCMC$metric <- "Injuries"
 #byyear <- read.csv("byyear.csv")
 #byy <- byyear %>% group_by(BA) %>%summarise(inj=sum(Injuries),fat=sum(Fatalities), ser=sum(Serious),sig=sum(Significant))
 x <- c(byy[[2,3]], byy[[1,3]]) 
-t <- c(byy[[2,6]], byy[[1,6]])
+
 rm(samples_sig)
 
 # The model string written in the JAGS language
@@ -65,7 +65,7 @@ fatMCMC$metric <- "Fatalities"
 #byyear <- read.csv("byyear.csv")
 #byy <- byyear %>% group_by(BA) %>%summarise(inj=sum(Injuries),fat=sum(Fatalities), ser=sum(Serious),sig=sum(Significant))
 x <- c(byy[[2,5]], byy[[1,5]]) 
-t <- c(byy[[2,6]], byy[[1,6]])
+
 rm(samples_sig)
 
 # The model string written in the JAGS language
@@ -92,7 +92,7 @@ sigMCMC$metric <- "Significant"
 #byyear <- read.csv("byyear.csv")
 #byy <- byyear %>% group_by(BA) %>%summarise(inj=sum(Injuries),fat=sum(Fatalities), ser=sum(Serious),sig=sum(Significant))
 x <- c(byy[[2,4]], byy[[1,4]]) 
-t <- c(byy[[2,6]], byy[[1,6]])
+
 rm(samples_ser)
 
 # The model string written in the JAGS language
@@ -116,3 +116,5 @@ serMCMC <- as_tibble(as.matrix(samples_ser))
 serMCMC$metric <- "Serious"
 
 allMCMC <- bind_rows(serMCMC, sigMCMC, injMCMC, fatMCMC)
+
+ggplot(allMCMC, aes(rate_ratio))+geom_histogram(aes(fill=metric), col='black')+theme_bw(14, "serif")+facet_wrap(~metric,scales = "free_x")+labs(y=NULL)
