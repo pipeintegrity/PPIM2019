@@ -328,7 +328,7 @@ serMCMC <- as_tibble(as.matrix(samples_ser)) #convert to a tibble
 ##plotting all four together ####
 par(mfrow=c(2,2))
 plotPost(injMCMC$rate_ratio, compVal = 1, main="Ratio of Mean Rates of Injuries",xlab=bquote(lambda[After]/lambda[Before]))
-plotPost(fatMCMC$rate_ratio, compVal = 1, main="Ratio of Mean Ratesf Fatalities",xlab=bquote(lambda[After]/lambda[Before]))
+plotPost(fatMCMC$rate_ratio, compVal = 1, main="Ratio of Mean Rates of Fatalities",xlab=bquote(lambda[After]/lambda[Before]))
 plotPost(sigMCMC$rate_ratio, compVal = 1, main="Ratio of Mean Rates of\nSignificant Incidents",xlab=bquote(lambda[After]/lambda[Before]))
 plotPost(serMCMC$rate_ratio, compVal = 1, main="Ratio of Mean Rates of\nSerious Incidents",xlab=bquote(lambda[After]/lambda[Before]))
 
