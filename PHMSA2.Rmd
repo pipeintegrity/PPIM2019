@@ -3,10 +3,10 @@ title: "Are You Any Safer Today?"
 author: "Joel Anderson"
 date: "February 05, 2018"
 output:
+  word_document: default
+  pdf_document: default
   html_document:
     fig_caption: yes
-  pdf_document: default
-  word_document: default
 subtitle: A Statistical Analysis of Incidents Before and After the Integrity Management Rule
 ---
 
@@ -288,7 +288,7 @@ From observation, it is evident that the Serious and Significant incidents show 
 
 For the incident data, an HBM will be used to infer not just whether there was a significant change but the amount of change as well.  Even though it is academic that there was a significant change in Serious and Significant incidents, the analysis will be run to quantify the magnitude of change in means. Since there is such a disparity of scale between the different metrics running from hundreds to single digits the comparison will be done as the ratio of after to before.  So, a ratio of greater than one indicates an increase and a ratio of less than one, a decrease.  The 95% HDI will be used to represent the credible range of values for each metric.  If the 95% HDI encompasses one that indicates there is no change in the population from one time period to the other.
   
-```{r, echo=FALSE, warning=FALSE, message=FALSE, results="hide", include=TRUE }
+```{r echo=FALSE, fig.height=6.5, fig.width=6.5, message=FALSE, warning=FALSE, include=TRUE, results="hide"}
 
 #BA     Serious Significant Fatal Injure count
 #Before     152         666    40    210    18
@@ -435,12 +435,12 @@ Although the number of incidents has gone up, the aggregated consequences has no
 ###HCA Performance Measures
 One potential explanation to the lack of discernible difference, other than incident counts, between before and after the IM rule is that most of the Subpart O requirements only apply to HCAs which only make up roughly 7% of transmission pipe.  If IM was having an affect it would be evident in the performance measures reported to PHMSA by operators and the incident rates in HCAs.  In the following plots we will examine the number of leaks, failures and significant incidents per 1,000 miles of HCA.  Because HCA mileage is so much less than the total transmission mileage it makes sense to normalize the count data to the amount of HCA miles since small changes in the number of occurrences has a larger effect on the rate.  There is no plot for Serious incidents in HCAs because there has only been a total of four in the 14 years of performance measures reporting.
   
-```{r,echo=FALSE,message=FALSE, warning=FALSE, fig.width=5,fig.height=6,dpi=300,fig.cap="Figure 11: HCA Performance Measures"}
+```{r,echo=FALSE,message=FALSE, warning=FALSE, fig.width=6.5,fig.height=8,dpi=300,fig.cap="Figure 11: HCA Performance Measures"}
 HCA=read.csv("HCA.csv")
 
 #failures in HCAs
 flr=ggplot(HCA)+geom_col(aes(year,flr_mile*1000),fill='firebrick3',col='black')+
-  theme_bw(12,"serif")+scale_x_continuous(breaks = c(seq(2004,2017,by=2)))+
+  theme_bw(10,"serif")+scale_x_continuous(breaks = c(seq(2004,2017,by=2)))+
   labs(title="HCA Failures per 1,000 Miles",subtitle="PHMSA Performance Measures 2004-2017",x="Year",y="Failures")+
   theme(title = element_text(size=rel(0.8)),axis.text = element_text(size=rel(0.8)), plot.margin = margin(0.4,0.4,0.4,0.4,"cm"))
 
@@ -560,11 +560,16 @@ The ratio of HCA to all transmission leak rates is nearly 80% higher in the HCA'
 ###Conclusion
 The only measure that has shown measurable improvement from before the IM rule is Serious incidents which have been decreasing for nearly two decades before the IM rule. In every other measure, they have either gotten worse or there is insufficient evidence to conclude a statistical difference.  Especially when you look specifically at HCA performance measures which in each case have increased since the begining of IM and the leak rate in HCAs is almost 80% higher compared to the entire transmission pipeline population.  Significant incidents, shows a large increase in the years since the IM rule but they were trending that direction all the way back to 1986. Since Serious incidents are related to injuries and fatalities which haven't shown any discernible change, it can be concluded that if the total number of injuries has not changed and the number of serious incidents has gone down,the number of injuries and fatalities per incident has increased. HCA leaks and failures have increased steadily over time and significant incidents in HCAs are roughly unchanged.  
   
-It is impossible to quantify what has been prevented through IM and if the metrics would be worse if there was no such thing as IM.  But what can be concluded with confidence is that there hasn't been any quantifiable improvement in injuries or fatalities and in the case of Significant incidents there has been a large increase and in the consequences of them.  On that basis, there isn't anything in these metrics, to suggest that either in HCAs or in the transmission system overall, that the integrity management rule has produced an improvement in pipeline safety.  Indeed, the NTSB has come to a similar conclusion in a Safety Study published in January of 2015 [^4], "While the Pipeline and Hazardous Materials Safety Administration's gas integrity management requirements have kept the rate of corrosion failures and material failures of pipe or welds low, there is no evidence that the overall occurrence of gas transmission pipeline incidents in high consequence area pipelines has declined." The reasons for this lack of measurable improvement could be many as incidents are almost never attributable to a single cause but rather a chain of interrelated events.
+It is impossible to quantify what has been prevented through IM and if the metrics would be worse if there was no such thing as IM.  But what can be concluded with confidence is that there hasn't been any quantifiable improvement in injuries or fatalities and in the case of Significant incidents there has been a large increase and in the consequences of them.  On that basis, there isn't anything in these metrics, to suggest that either in HCAs or in the transmission system overall, that the integrity management rule has produced an improvement in pipeline safety.  Indeed, the NTSB has come to a similar conclusion in a Safety Study published in January of 2015 [^4], "While the Pipeline and Hazardous Materials Safety Administration's gas integrity management requirements have kept the rate of corrosion failures and material failures of pipe or welds low, there is no evidence that the overall occurrence of gas transmission pipeline incidents in high consequence area pipelines has declined." The reasons for this lack of measurable improvement could be many, as incidents are almost never attributable to a single cause but rather a chain of interrelated events. But looking at the leaks and failures in HCAs it makes a convincing case that the IM rule has actually made pipelines less safe.
 
-Operators, even before the IM rule were making great strides in improving pipeline safety and after the law was passed it forced them to expend considerable resources on a small subset of their entire system (HCAs), restricting resources for other safety measures.  
+Operators, even before the IM rule were making great strides in improving pipeline safety and after the law was passed it forced them to expend considerable resources on a small subset of their entire system (HCAs), restricting resources for outside the HCAs.  It's not as though pipelines weren't regulated before the Pipeline Safety Act of 2002, a partial list of laws related to pipeline safety prior to that include; Natural Gas Pipeline Safety Act of 1968 (amended in 1976), Pipeline Safety Reauthorization Act of 1988, Pipeline Safety Act of 1992, Accountable Pipeline Safety and Partnership Act of 1996 this is in addition to two more pipeline safety laws passed since 2002. Each law adding a new layer of requirements and complexity on top of existing mandates.
 
-The explaination may not reside in engineering or risk managment but in economics. Then after assessing a given line the Operator is mandated to reassess in no more than 7 years regardless of the condition of the line.  Looking at the leaks and failures in HCAs it is a convincing case that the IM rule has actually made pipelines less safe.  It might be prudent to consider a truly risk-based performance regulatory framework rather than the prescriptive regulatory process currently being used.
+The explaination may not reside in engineering nor risk managment nor even legislation, but in economics.  In economics there is a concept of cost-benefit that is interelated with risk.  The benefit (risk reduction) recieved for additional expenditure is not a straight line it is a vertical convex curve that represents the total cost of ownership (TCO) which is the sum of operating and maintenance cost, with the probability of failure (PoF) as the horizontal axis and cost on the vertical.  When the PoF is high, the TCO is also high because of the high operating cost, than as the PoF is reduced, the TCO also gradually goes down as the operating costs are reduced faster than the increase in maintenance. Than at some PoF the TCO reaches a minimum and starts increasing.  Beyond that point the costs increase dispraportionately to the PoF reduction and reduction in operating cost. Then there is a steep increase in TCO with minimal if any reduction in PoF.  This is the possible scenario we find ourselves in today in that the PoF of most pipelines was already quite low and that IM has only drven up the cost of ownership with no reduction in risk.  In some cases it has created second-order effects where the risk might be reduced on one area of the pipeline but since it has driven up the cost across the board it has the unintended consequence of increased risk elsewhere with no net effect.  With this in mind, it would be prudent to consider a truly risk-based performance regulatory framework that allows flexibility rather than the prescriptive regulatory process currently being used.  As such, if the dispraportionate resources applied to High Consequence Areas has not reduced safety, then it is hard to see a way where creating a new "Moderate Consequence Area" will reduce any risk.
+  
+```{r,out.width='25%', echo=FALSE}
+include_graphics("TCO_curve.jpg")
+```
+
   
 [^4]: National Transportation Safety Board. 2015. Integrity Management of Gas Transmission Pipelines in High Consequence Areas. Safety Study NTSB/SS-15/01. Washington, DC.
 
