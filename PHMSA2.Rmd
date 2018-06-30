@@ -402,15 +402,15 @@ serMCMC <- as_tibble(as.matrix(samples_ser)) #convert to a tibble
 
 ##plotting all four together ####
 par(mfrow=c(2,2))
-plotPost(injMCMC$rate_ratio, compVal = 1, main="Ratio of Mean Rates of Injuries",xlab=bquote(lambda[After]/lambda[Before]))
-plotPost(fatMCMC$rate_ratio, compVal = 1, main="Ratio of Mean Rates of Fatalities",xlab=bquote(lambda[After]/lambda[Before]))
-plotPost(sigMCMC$rate_ratio, compVal = 1, main="Ratio of Mean Rates of\nSignificant Incidents",xlab=bquote(lambda[After]/lambda[Before]))
-plotPost(serMCMC$rate_ratio, compVal = 1, main="Ratio of Mean Rates of\nSerious Incidents",xlab=bquote(lambda[After]/lambda[Before]))
+plotPost(injMCMC$rate_ratio, compVal = 1, main="Ratio of Mean Injury Rates",xlab=bquote(lambda[After]/lambda[Before]))
+plotPost(fatMCMC$rate_ratio, compVal = 1, main="Ratio of Mean Fatality Rates",xlab=bquote(lambda[After]/lambda[Before]))
+plotPost(sigMCMC$rate_ratio, compVal = 1, main="Ratio of Mean Significant\nIncident Rates",xlab=bquote(lambda[After]/lambda[Before]))
+plotPost(serMCMC$rate_ratio, compVal = 1, main="Ratio of Mean Serious\nIncident Rates",xlab=bquote(lambda[After]/lambda[Before]))
 
 
 ```
   
-The CoF data being a continuous measure is tested differently than the count metrics above.  A common method for this would typically be a t-test.  This test relies on assumptions about the data being normally distributed and is sensitive to outliers. Since the data has large outliers, the method employed here is a Markov Chain Monte Carlo (MCMC) to test the differences since it is robust against such outliers.  Since this test is looking at the difference of means, if the credible range of ratios includes one, then there is no statistical difference between the two samples.  Note that since the consequences span several magnitudes of order, this analysis is based on the $log_{10}$ of the CoF.
+Sine the CoF data is a continuous measure it has tested differently than the count metrics above.  A common method for this would typically be a t-test.  However this test relies on assumptions about the data being normally distributed and is sensitive to outliers. Since the data has large outliers, the method employed here is a Markov Chain Monte Carlo (MCMC) to test the differences since it is robust against such outliers.  Since this test is looking at the ratio of the sample means, if the credible range of ratios includes one, then there is no statistical difference between the two samples.  Note that since the consequences span several magnitudes of order, this analysis is based on the $log_{10}$ of the CoF.
   
 ```{r , echo=FALSE, warning=FALSE, message=FALSE,dpi=300, fig.cap="Figure 10: Difference of CoF Means"}
 
@@ -426,7 +426,7 @@ library(BEST)
 #Log10 CoF comparison
 p_coflog <- BESTmcmc(log10(GGT_all$CoF[1:18]),log10(GGT_all$CoF[19:32]),numSavedSteps = 1e4)
 
-plotPost(10^(p_coflog$mu2)/10^(p_coflog$mu1),xlab=bquote(mu[After]/mu[Before]),main="Ratio of Means of CoF", compVal = 1,credMass = 0.95)
+plotPost(10^(p_coflog$mu2)/10^(p_coflog$mu1),xlab=bquote(mu[After]/mu[Before]),main="Ratio of the CoF Means", compVal = 1,credMass = 0.95)
 
 ```
   
