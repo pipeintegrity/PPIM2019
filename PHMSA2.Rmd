@@ -245,7 +245,7 @@ INJ <- ggplot(data.frame(x=c(0,20)),aes(x=x))+
   stat_function(fun=dgamma,args = list(212,18.1),aes(col='Before'),n=301,lwd=1)+
   stat_function(fun=dgamma,args = list(133,14+.1),aes(col='After'),lwd=1,n=301)+
   theme_bw(12,"serif")+
-  labs(title="Mean of Annual Reported Injuries",x="Injuries Per Year",y=NULL, caption="PHMSA Tranmission incident data 1986-2017")+
+  labs(title="Credible Interval of Annual Reported Injuries",x="Injuries Per Year",y=NULL, caption="PHMSA Tranmission incident data 1986-2017")+
   theme(text=element_text(size=rel(3)),plot.title = element_text(size=rel(3)),plot.caption = element_text(size=rel(1.5)),legend.text = element_text(size=rel(2)),plot.subtitle = element_text(size=rel(2)))+
   scale_color_manual("IM Rule",values=c('blue','red'),breaks=c("Before","After"))
 
@@ -253,7 +253,7 @@ FAT <- ggplot(data.frame(x=c(0,5)),aes(x=x))+
   stat_function(fun=dgamma,args = list(43,18+1),aes(col='Before'),n=501,lwd=1)+
   stat_function(fun=dgamma,args = list(31,14+1),aes(col='After'),lwd=1,n=501)+
   theme_bw(12,"serif")+
-  labs(title="Mean of Annual Reported Fatalities",x="Fatalities Per Year",y=NULL, caption="PHMSA Tranmission incident data 1986-2017")+
+  labs(title="Credible Interval of Annual Reported Fatalities",x="Fatalities Per Year",y=NULL, caption="PHMSA Tranmission incident data 1986-2017")+
   theme(text=element_text(size=rel(3)),plot.title = element_text(size=rel(3)),plot.caption = element_text(size=rel(1.5)),legend.text = element_text(size=rel(2)),plot.subtitle = element_text(size=rel(2)))+
   scale_color_manual("IM Rule",values=c('blue','red'),breaks=c("Before","After"))
 
@@ -261,7 +261,7 @@ SIG <- ggplot(data.frame(x=c(20,70)),aes(x=x))+
   stat_function(fun=dgamma,args = list(666+9,18.1),aes(col='Before'),n=501,lwd=1)+
   stat_function(fun=dgamma,args = list(820+9,14+.1),aes(col='After'),lwd=1,n=501)+
   theme_bw(12,"serif")+
-  labs(title="Mean of Annual Significant Incidents",x="Siginificant Incidents Per Year",y=NULL, caption="PHMSA Tranmission incident data 1986-2017")+
+  labs(title="Credible Interval of Annual Significant Incidents",x="Siginificant Incidents Per Year",y=NULL, caption="PHMSA Tranmission incident data 1986-2017")+
   theme(text=element_text(size=rel(3)),plot.title = element_text(size=rel(3)),plot.caption = element_text(size=rel(1.5)),legend.text = element_text(size=rel(2)),plot.subtitle = element_text(size=rel(2)))+
   scale_color_manual("IM Rule",values=c('blue','red'),breaks=c("Before","After"))
 
@@ -269,7 +269,7 @@ SER <- ggplot(data.frame(x=c(0,15)),aes(x=x))+
   stat_function(fun=dgamma,args = list(152+3,18.1),aes(col='Before'),n=501,lwd=1)+
   stat_function(fun=dgamma,args = list(58+3.4,14+.1),aes(col='After'),lwd=1,n=501)+
   theme_bw(12,"serif")+
-  labs(title="Mean of Annual Serious Incidents",x="Serious Incidents Per Year",y=NULL, caption="PHMSA Tranmission incident data 1986-2017")+
+  labs(title="Credible of Interval Annual Serious Incidents",x="Serious Incidents Per Year",y=NULL, caption="PHMSA Tranmission incident data 1986-2017")+
   theme(text=element_text(size=rel(3)),plot.title = element_text(size=rel(3)),plot.caption = element_text(size=rel(1.5)),legend.text = element_text(size=rel(2)),plot.subtitle = element_text(size=rel(2)))+
   scale_color_manual("IM Rule",values=c('blue','red'),breaks=c("Before","After"))
 
@@ -475,7 +475,7 @@ plotPost(best_lk_hca$mu2/best_lk_hca$mu1, compVal = 1,
          col = "skyblue")
 
 #failures in HCAs
-best_flr_hca <- BESTmcmc(HCA$flr_1kmile[1:7],HCA$flr_1kmile[8:14],numSavedSteps = 2e4)
+best_flr_hca <- BESTmcmc(HCA$flr_1kmile[1:7],HCA$flr_1kmile[8:14],numSavedSteps = 1e4)
 
 plotPost(best_flr_hca$mu2/ best_flr_hca$mu1, compVal = 1, 
          credMass = 0.95, xlab = bquote(mu["2nd"]/mu["1st"]), 
@@ -495,70 +495,72 @@ plotPost(best_sig_hca$mu2/ best_sig_hca$mu1, compVal = 1,
   
 The 95% highest density interval (HDI) of HCA failures and significant incidents shows no change in the first vs. second half of performance measures history.  
 
-Although the HDI of the ratio of leaks does cross not cross one, it barely misses it by less than 0.1.  For practical matters this is equivalent to one so we could say that there is evidence of no change.  But with over 99% of the samples greater than one, this is likely an indicator that the leaks have probably increased in HCAs in the more recent half of the dataset but the size of the change is small at this time and that more data needs to be collected before definitive statements are made.  The HCA leak rates were further compared to the leak rates on all transmission.  To compare to all transmission pipe leak rates to HCA leak rates the entire date range from the HCA performance measures was compared against the transmission leak rate for the same timeframe then the ratio of the two rates are plotted in Figure 13.
+Although the HDI of the ratio of leaks does cross one, it barely misses it by less than 0.1.  For practical matters this is equivalent to one so we could say that there is evidence of no change.  But with over 99% of the samples greater than one, this is likely an indicator that the leaks have probably increased in HCAs in the more recent half of the dataset but the size of the change is small at this time and that more data needs to be collected before definitive statements are made.  The HCA leak rates were further compared to the leak rates in Non-HCAs.  To compare to all transmission pipe leak rates to HCA leak rates the entire date range from the HCA performance measures was compared against the transmission leak rate for the same timeframe then the ratio of the two rates are plotted in Figure 13.
    
-```{r,echo=FALSE,message=FALSE, warning=FALSE,results="hide", include=TRUE, fig.cap="Figure 13: Leak Rates in HCAs Compared to all Transmission Pipe", fig.width=5, fig.height=3, dpi=300}
+```{r,echo=FALSE,message=FALSE, warning=FALSE,results="hide", include=TRUE, fig.cap="Figure 13: Leak Rates in HCAs Compared to Non-HCAs", fig.width=5, fig.height=3, dpi=300}
 
-library(readxl)
+# library(readxl)
  ##Gas Transmission Annual Data ####
-  GT_2017AD <- read_excel("GT_2017.xlsx", sheet = "GT AR Part A to D", skip = 2)
-  GT_2016AD <- read_excel("GT_2016.xlsx", sheet = "GT AR Part A to D", skip = 2)
-  GT_2015AD <- read_excel("GT_2015.xlsx", sheet = "GT AR Part A to D", skip = 2)
-  GT_2014AD <- read_excel("GT_2014.xlsx", sheet = "GT AR Part A to D", skip = 2)
-  GT_2013AD <- read_excel("GT_2013.xlsx", sheet = "GT AR Part A to D", skip = 2)
-  GT_2012AD <- read_excel("GT_2012.xlsx", sheet = "GT AR Part A to D", skip = 2)
-  GT_2011AD <- read_excel("GT_2011.xlsx", sheet = "GT AR Part A to D", skip = 2)
-  GT_2010AD <- read_excel("GT_2010.xlsx", sheet = "GT AR Part A to D", skip = 2)
-  
-  GTAD <- bind_rows(GT_2010AD,GT_2011AD)
-  GTAD <- bind_rows(GTAD,GT_2012AD)
-  GTAD <- bind_rows(GTAD,GT_2013AD)
-  GTAD <- bind_rows(GTAD,GT_2014AD)
-  GTAD <- bind_rows(GTAD,GT_2015AD)
-  GTAD <- bind_rows(GTAD,GT_2016AD)
-  GTAD <- bind_rows(GTAD,GT_2017AD)
-
-
-##Gas Transmission Annual Data Part M #### 
-  GT_2017M <- read_excel("GT_2017.xlsx", sheet = "GT AR Part M", skip = 2)
-  GT_2016M <- read_excel("GT_2016.xlsx", sheet = "GT AR Part M", skip = 2)
-  GT_2015M <- read_excel("GT_2015.xlsx", sheet = "GT AR Part M", skip = 2)
-  GT_2014M <- read_excel("GT_2014.xlsx", sheet = "GT AR Part M", skip = 2)
-  GT_2013M <- read_excel("GT_2013.xlsx", sheet = "GT AR Part M", skip = 2)
-  GT_2012M <- read_excel("GT_2012.xlsx", sheet = "GT AR Part M", skip = 2)
-  GT_2011M <- read_excel("GT_2011.xlsx", sheet = "GT AR Part M", skip = 2)
-  GT_2010M <- read_excel("GT_2010.xlsx", sheet = "GT AR Part M", skip = 2)
-  
-  
-  GTM <- bind_rows(GT_2017M,GT_2016M)
-  GTM <- bind_rows(GTM,GT_2015M)
-  GTM <- bind_rows(GTM,GT_2014M)
-  GTM <- bind_rows(GTM,GT_2013M)
-  GTM <- bind_rows(GTM,GT_2012M)
-  GTM <- bind_rows(GTM,GT_2011M)
-  GTM <- bind_rows(GTM,GT_2010M)
-  
-gasmiles <- filter(GTAD[,c(2,6,5,13,42)],PARTA5COMMODITY=="Natural Gas")
-yrmiles <- gasmiles %>% group_by(REPORT_YEAR) %>% summarise(miles=sum(PARTDTONTOTAL))
-
-leaks <- GTM[,c(2,6,5,7,11,114:117)]
-leaks <- filter(leaks,PARTA5COMMODITY=="Natural Gas")
-lkcount <- leaks %>% group_by(REPORT_YEAR) %>% count()
-lkmile <- merge(yrmiles,lkcount,by="REPORT_YEAR")
-lkmile$lk1k <- lkmile$n/lkmile$miles*1e3  #add leak per 1k miles field
+#   GT_2017AD <- read_excel("GT_2017.xlsx", sheet = "GT AR Part A to D", skip = 2)
+#   GT_2016AD <- read_excel("GT_2016.xlsx", sheet = "GT AR Part A to D", skip = 2)
+#   GT_2015AD <- read_excel("GT_2015.xlsx", sheet = "GT AR Part A to D", skip = 2)
+#   GT_2014AD <- read_excel("GT_2014.xlsx", sheet = "GT AR Part A to D", skip = 2)
+#   GT_2013AD <- read_excel("GT_2013.xlsx", sheet = "GT AR Part A to D", skip = 2)
+#   GT_2012AD <- read_excel("GT_2012.xlsx", sheet = "GT AR Part A to D", skip = 2)
+#   GT_2011AD <- read_excel("GT_2011.xlsx", sheet = "GT AR Part A to D", skip = 2)
+#   GT_2010AD <- read_excel("GT_2010.xlsx", sheet = "GT AR Part A to D", skip = 2)
+#   
+#   GTAD <- bind_rows(GT_2010AD,GT_2011AD)
+#   GTAD <- bind_rows(GTAD,GT_2012AD)
+#   GTAD <- bind_rows(GTAD,GT_2013AD)
+#   GTAD <- bind_rows(GTAD,GT_2014AD)
+#   GTAD <- bind_rows(GTAD,GT_2015AD)
+#   GTAD <- bind_rows(GTAD,GT_2016AD)
+#   GTAD <- bind_rows(GTAD,GT_2017AD)
+# 
+# 
+# ##Gas Transmission Annual Data Part M #### 
+#   GT_2017M <- read_excel("GT_2017.xlsx", sheet = "GT AR Part M", skip = 2)
+#   GT_2016M <- read_excel("GT_2016.xlsx", sheet = "GT AR Part M", skip = 2)
+#   GT_2015M <- read_excel("GT_2015.xlsx", sheet = "GT AR Part M", skip = 2)
+#   GT_2014M <- read_excel("GT_2014.xlsx", sheet = "GT AR Part M", skip = 2)
+#   GT_2013M <- read_excel("GT_2013.xlsx", sheet = "GT AR Part M", skip = 2)
+#   GT_2012M <- read_excel("GT_2012.xlsx", sheet = "GT AR Part M", skip = 2)
+#   GT_2011M <- read_excel("GT_2011.xlsx", sheet = "GT AR Part M", skip = 2)
+#   GT_2010M <- read_excel("GT_2010.xlsx", sheet = "GT AR Part M", skip = 2)
+#   
+#   
+#   GTM <- bind_rows(GT_2017M,GT_2016M)
+#   GTM <- bind_rows(GTM,GT_2015M)
+#   GTM <- bind_rows(GTM,GT_2014M)
+#   GTM <- bind_rows(GTM,GT_2013M)
+#   GTM <- bind_rows(GTM,GT_2012M)
+#   GTM <- bind_rows(GTM,GT_2011M)
+#   GTM <- bind_rows(GTM,GT_2010M)
+#   
+# gasmiles <- filter(GTAD[,c(2,6,5,13,42)],PARTA5COMMODITY=="Natural Gas")
+# yrmiles <- gasmiles %>% group_by(REPORT_YEAR) %>% summarise(miles=sum(PARTDTONTOTAL))
+# 
+# leaks <- GTM[,c(2,6,5,7,11,114:117)]
+# leaks <- filter(leaks,PARTA5COMMODITY=="Natural Gas")
+# lkcount <- leaks %>% group_by(REPORT_YEAR) %>% count()
+# lkmile <- merge(yrmiles,lkcount,by="REPORT_YEAR")
+# lkmile$lk1k <- lkmile$n/lkmile$miles*1e3  #add leak per 1k miles field
 
 #leaks in HCAs vs. Non-HCA####
-best_lk_hca_nhca <- BESTmcmc(HCA$lk_1kmile,lkmile$lk1k,numSavedSteps = 2e4)
+
+hca_perform <- read.csv("hca_perform.csv")
+best_lk_hca_nhca <- BESTmcmc(hca_perform$lk_1k_hca[7:14],hca_perform$lk_1k_nonhca[7:14],numSavedSteps = 2e4)
 
 plotPost(best_lk_hca_nhca$mu1/best_lk_hca_nhca$mu2, compVal = 1, 
          credMass = 0.95, xlab = bquote(mu["HCA"] / mu["Non-HCA"]), 
-         cex.lab = 1.75, main = "Ratio of Annual Leaks/1,000 Miles")
+         cex.lab = 1.75, main = "Ratio of HCA Leak Rates/ Non-HCA Leak Rates")
 ```
 
-The average ratio of HCA to all transmission leak rates is nearly 80% higher in the HCAs with a 95% HDI that extends from about 1.3 to 2.3.  Since the credible range of the ratio of leak rates excludes one, it can be concluded that the normalized leak rate in HCA's is substantially higher than transmission system as a whole over a similar period of time.
+Prior to 2010 HCA leaks were not reported seperate to non-HCA leaks in the annual report. Although HCA leaks were reported in the performance measures since 2004, there was no category of non-HCA leaks recorded.  Therefore, Figure 13 is based on 2010 forward.  The mean HCA leak rare is nearly 70% higher than non-HCAs with a 95% HDI that extends from approximately 1.3 to 2.1.  Since the entire credible range of the ratio of leak rates excludes one, it can be concluded that the normalized leak rate in HCA's is substantially higher than non-HCAs over the same period of time.
 
 ###Conclusion
-The only measure that has shown measurable improvement from before the IM rule is Serious incidents which have been decreasing for nearly two decades before the IM rule. In every other measure, they have either gotten worse or there is insufficient evidence to conclude a statistical difference.  Especially the HCA performance measures which in each case have increased since the beginning of IM and the leak rate in HCAs is almost 80% higher compared to the entire transmission pipeline population.  Significant incidents, shows a large increase in the years since the IM rule but they were trending that direction all the way back to 1986. Since Serious incidents are incidents that involve injuries and fatalities which haven't shown any discernible change, it can be concluded that if the total number of injuries and fatalities is unchanged and the number of serious incidents has gone down,the number of injuries and fatalities per incident has increased. HCA leaks and failures have increased steadily over time and significant incidents in HCAs are roughly unchanged.  
+The only measure that has shown measurable improvement from before the IM rule is Serious incidents which have been decreasing for nearly two decades before the IM rule. In every other measure, they have either gotten worse or there is insufficient evidence to conclude a statistical difference.  Especially the HCA performance measures which in each case have increased since the beginning of IM and the leak rate in HCAs is almost 70% higher compared to Non-HCAs.  Significant incidents in the annual tranmission dataset, shows a large increase in the years since the IM rule but they were trending that direction all the way back to 1986. Since Serious incidents are incidents that involve injuries and fatalities which haven't shown any discernible change, it can be concluded that if the total number of injuries and fatalities is unchanged and the number of serious incidents has gone down,the number of injuries and fatalities per incident has increased since IM has been implemented.
   
 It is impossible to prove what has been prevented through IM or if the metrics would be worse if there was no such thing as IM.  But what can be concluded with confidence is that there hasn't been any quantifiable improvement in injuries or fatalities and in the case of Significant incidents and consequences there has been a large increase.  On that basis, there isn't anything in these metrics, to suggest that either in HCAs or in the transmission system overall, that the integrity management rule has produced an improvement in pipeline safety.  Indeed, the NTSB has come to a similar conclusion in a Safety Study published in January of 2015 [^4], "While the Pipeline and Hazardous Materials Safety Administration's gas integrity management requirements have kept the rate of corrosion failures and material failures of pipe or welds low, there is no evidence that the overall occurrence of gas transmission pipeline incidents in high consequence area pipelines has declined." The reasons for this lack of measurable improvement could be many, as incidents are almost never attributable to a single cause but rather a chain of interrelated events. But looking at the leaks and failures in HCAs it makes a convincing case that the IM rule has possibly made pipelines less safe.
 
