@@ -284,7 +284,7 @@ The more robust method is a Hierarchical Bayesian Model (HBM).  The specifics of
 
 For the incident data, an HBM will be used to infer not just whether there was a statistically significant change but the size of change as well.  Even though it is academic that there was a significant change in Serious and Significant incidents, the analysis will be run to quantify the magnitude of the changes. Since there is such a disparity of scale between the different metrics running from hundreds to single digits the comparison will be done as the ratio of after to before.  So, a ratio of greater than one indicates an increase and a ratio of less than one, a decrease.  The 95% HDI will be used to represent the credible range of values for each metric.  If the 95% HDI encompasses one that indicates there is evidence of no change in the population from one time period to the other.
   
-```{r echo=FALSE, fig.height=6.5, fig.width=6.5, dpi=300, message=FALSE, warning=FALSE, include=TRUE, results="hide"}
+```{r echo=FALSE, fig.height=5.0, fig.width=6.0, dpi=300, message=FALSE, warning=FALSE, include=TRUE, results="hide"}
 
 #BA     Serious Significant Fatal Injure count
 #Before     152         666    40    210    18
