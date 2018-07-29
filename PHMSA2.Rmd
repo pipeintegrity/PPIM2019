@@ -11,7 +11,7 @@ subtitle: A Statistical Analysis of Incidents Before and After the Integrity Man
 ---
 
 ###Executive Summary  
-With over a decade and a half since The Pipeline Safety Improvement Act of 2002 was passed, i.e. the Integrity Management (IM) Rule, and hundreds of millions of man-hours and tens of billions of dollars spent by operators, consultants and contractors in support of this effort, it is a worthwhile effort to look back and see if safety has significantly improved.  While it is impossible to prove what didn't happen because of things that were found and repaired as a result of an operator's IM program, intuitively the expectation is that measurable safety improvements would reflect in the incident statistics published by PHMSA[^1]. As part of the IM Rule the Government Accountability Office was directed to assess the effects on public safety from the IM program for gas transmission pipelines. In 2006, the Government Accountability Office (GAO) concluded, "As the program matures, PHMSA's performance measures should allow the agency to quantitatively demonstrate the program's impact on the safety of pipelines."[^2]  While the GAO report looked at some of the broad trends early in the program it was too early to draw any conclusions if the public was safer.  
+With over a decade and a half since The Pipeline Safety Improvement Act of 2002 was passed into law, i.e. the Integrity Management (IM) Rule, and hundreds of millions of man-hours and tens of billions of dollars spent by operators, consultants and contractors in support of this effort, it is a worthwhile effort to look back and see if safety has significantly improved.  While it is impossible to prove what didn't happen because of things that were found and repaired as a result of an operator's IM program, intuitively the expectation is that measurable safety improvements would reflect in the incident statistics published by PHMSA[^1]. As part of the IM Rule the Government Accountability Office was directed to assess the effects on public safety from the IM program for gas transmission pipelines. In 2006, the Government Accountability Office (GAO) concluded, "As the program matures, PHMSA's performance measures should allow the agency to quantitatively demonstrate the program's impact on the safety of pipelines."[^2]  While the GAO report looked at some of the broad trends early in the program it was too early to draw any conclusions if the public was safer.  
   
 But now with the benefit of time, especially now as operators have finished their baseline assessments and most pipelines are now into reassessments and potentially second reassessments there is a significant amount of data in the public domain to use in trying to assess the effects.  To test if a measurable difference in safety has been made, a rigorous statistical methodology will be employed to determine if there has been a significant shift in incident rates and severity of incidents since implementation of the rule.  The analysis will examine the metrics of fatalities, injuries, incident count, and property damage for the years prior to (1986 - 2003) and following (2004 - 2017) implementation of the IM rule.  While the incident data includes both HCA and non-HCA pipelines, the IM performance measures reported to PHMSA is the number of leaks, failures and incidents that occurred specifically in HCAs. Although the IM Rule was published in December of 2003 and the HCA Rule prior to that in 2002, for the purposes of this study, 2004 will be considered the first year under the IM Rule.
 
@@ -156,7 +156,7 @@ ggplot(all_combine, aes(factor(Year), CoF))+
   geom_boxplot(aes(fill=BA),outlier.shape=1)+
   scale_y_log10()+
   labs(list(x="Year", y="CoF (log scale)", title="Range of CoF by Year for Gas Transmisison Incidents"))+
-  guides(fill=guide_legend(title = "IM Rule Status"))+
+  guides(fill=guide_legend(title = "IM Rule"))+
   theme_light(11,"serif")+
   theme(legend.position='bottom')+
   scale_fill_manual(values=c("coral2", "cornflowerblue"))+
@@ -202,45 +202,45 @@ byyear <- read.csv("byyear.csv")
 
 fatim <- ggplot(byyear)+
   geom_path(aes(Year, Fatalities),col='turquoise3',lwd=1)+
-  geom_smooth(method = "lm",aes(Year,Fatalities),data = byyear,se=F)+
+  geom_smooth(method = "lm",aes(Year,Fatalities),data = byyear,se=F,lwd=0.5,alpha=0.5)+
   theme_light(12,"serif")+
-  geom_vline(xintercept = 2003,lty=2,col='red')+
+  geom_vline(xintercept = 2004,lty=2,col='red',alpha=0.6)+
   theme(text=element_text(size=rel(3)),plot.title = element_text(size=rel(3)))+
   labs(title="Annual Fatalities vs. Year",x="Year",y=NULL)+
   scale_x_continuous(breaks=c(1986,seq(1990,2017,by = 5)))+
-  annotate("text",x=1995,y=12,label="Before IM",alpha=0.8)+
-  annotate("text",x=2007,y=12,label="After IM",alpha=0.8)
+  annotate("text",x=1995,y=12,label="Before IM",alpha=0.8,size=3)+
+  annotate("text",x=2008,y=12,label="After IM",alpha=0.8,size=3)
 
 injim <- ggplot(byyear)+
   geom_path(aes(Year, Injuries),col='turquoise3',lwd=1)+
-  geom_smooth(method = "lm",aes(Year,Injuries),data = byyear,se=F)+
+  geom_smooth(method = "lm",aes(Year,Injuries),data = byyear,se=F,lwd=0.5,alpha=0.5)+
   theme_light(12,"serif")+
-  geom_vline(xintercept = 2003,lty=2,col='red')+
+  geom_vline(xintercept = 2004,lty=2,col='red',alpha=0.6)+
   theme(text=element_text(size=rel(3)),plot.title = element_text(size=rel(3)))+
   labs(title="Annual Injuries vs. Year",x="Year",y=NULL)+
   scale_x_continuous(breaks=c(1986,seq(1990,2017,by = 5)))+
-  annotate("text",x=1998,y=47,label="Before IM",alpha=0.8)+
-  annotate("text",x=2006.5,y=47,label="After IM",alpha=0.8)
+  annotate("text",x=1998,y=47,label="Before IM",alpha=0.8,size=3)+
+  annotate("text",x=2007,y=47,label="After IM",alpha=0.8,size=3)
 
 sigyr <- ggplot(byyear)+geom_path(aes(Year, Significant),col='turquoise3',lwd=1)+
-  geom_smooth(method = "lm",aes(Year,Significant),data = byyear,se=F)+
+  geom_smooth(method = "lm",aes(Year,Significant),data = byyear,se=F,lwd=0.5,alpha=0.5)+
   theme_light(12,"serif")+
-  geom_vline(xintercept = 2003,lty=2,col='red')+
+  geom_vline(xintercept = 2004,lty=2,col='red',alpha=0.6)+
   theme(text=element_text(size=rel(3)),plot.title = element_text(size=rel(3)))+
   labs(title="Annual Significant Incidents vs. Year",x="Year",y=NULL)+
   scale_x_continuous(breaks=c(1986,seq(1990,2017,by = 5)))+
-  annotate("text",x=1998,y=60,label="Before IM",alpha=0.8)+
-  annotate("text",x=2007,y=30,label="After IM",alpha=0.8)
+  annotate("text",x=1998,y=60,label="Before IM",alpha=0.8,size=3)+
+  annotate("text",x=2008,y=30,label="After IM",alpha=0.8,size=3)
 
 Seryr <- ggplot(byyear)+geom_path(aes(Year, Serious),col='turquoise3',lwd=1)+
-  geom_smooth(method = "lm",aes(Year,Serious),data = byyear,se=F)+
+  geom_smooth(method = "lm",aes(Year,Serious),data = byyear,se=F,lwd=0.5,alpha=0.5)+
   theme_light(12,"serif")+
-  geom_vline(xintercept = 2003,lty=2,col='red')+
+  geom_vline(xintercept = 2004,lty=2,col='red',alpha=0.6)+
   theme(text=element_text(size=rel(3)),plot.title = element_text(size=rel(3)))+
   labs(title="Annual Serious Incidents vs. Year",x="Year",y=NULL)+
   scale_x_continuous(breaks=c(1986,seq(1990,2017,by = 5)))+
-  annotate("text",x=1998.5,y=13,label="Before IM",alpha=0.8)+
-  annotate("text",x=2007,y=13,label="After IM",alpha=0.8)
+  annotate("text",x=1998.5,y=13,label="Before IM",alpha=0.8,size=3)+
+  annotate("text",x=2008,y=13,label="After IM",alpha=0.8,size=3)
 
 #Gamma priors####
 #fatalities (3,1)
@@ -263,42 +263,42 @@ INJ <- ggplot(data.frame(x=c(0,20)),aes(x=x))+
   stat_function(fun=dgamma,args = list(inj[1]+2,t[1]+0.1),aes(col='Before'),n=301,lwd=1)+
   stat_function(fun=dgamma,args = list(inj[2]+2,t[2]+0.1),aes(col='After'),lwd=1,n=301)+
   theme_light(12,"serif")+
-  labs(title="Credible Interval of Annual Reported Injuries",x="Injuries Per Year",y=NULL, caption="PHMSA Tranmission incident data 1986-2017")+
-  theme(text=element_text(size=rel(3)),plot.title = element_text(size=rel(3)),plot.caption = element_text(size=rel(1.5)),legend.text = element_text(size=rel(2)),plot.subtitle = element_text(size=rel(2)))+
-  scale_color_manual("IM Rule",values=c('blue','red'),breaks=c("Before","After"))
+  labs(title="Credible Interval of Injuries/Yr.",x="Injuries Per Year",y=NULL)+
+  theme(text=element_text(size=rel(3)),plot.title = element_text(size=rel(3)),legend.text = element_text(size=rel(2)),plot.subtitle = element_text(size=rel(2)))+
+  scale_color_manual("IM Rule",values=c("coral2", "cornflowerblue"),breaks=c("Before","After"))
 
 FAT <- ggplot(data.frame(x=c(0,5)),aes(x=x))+
   stat_function(fun=dgamma,args = list(fat[1]+3,t[1]+1),aes(col='Before'),n=501,lwd=1)+
   stat_function(fun=dgamma,args = list(fat[2],t[2]+1),aes(col='After'),lwd=1,n=501)+
   theme_light(12,"serif")+
-  labs(title="Credible Interval of Annual Reported Fatalities",x="Fatalities Per Year",y=NULL, caption="PHMSA Tranmission incident data 1986-2017")+
-  theme(text=element_text(size=rel(3)),plot.title = element_text(size=rel(3)),plot.caption = element_text(size=rel(1.5)),legend.text = element_text(size=rel(2)),plot.subtitle = element_text(size=rel(2)))+
-  scale_color_manual("IM Rule",values=c('blue','red'),breaks=c("Before","After"))
+  labs(title="Credible Interval of Fatalities/Yr.",x="Fatalities Per Year",y=NULL)+
+  theme(text=element_text(size=rel(3)),plot.title = element_text(size=rel(3)),legend.text = element_text(size=rel(2)),plot.subtitle = element_text(size=rel(2)))+
+  scale_color_manual("IM Rule",values=c("coral2", "cornflowerblue"),breaks=c("Before","After"))
 
 SIG <- ggplot(data.frame(x=c(20,70)),aes(x=x))+
   stat_function(fun=dgamma,args = list(sig[1]+9,t[1]+0.1),aes(col='Before'),n=501,lwd=1)+
   stat_function(fun=dgamma,args = list(sig[2]+9,t[2]+0.1),aes(col='After'),lwd=1,n=501)+
   theme_light(12,"serif")+
-  labs(title="Credible Interval of Annual Significant Incidents",x="Siginificant Incidents Per Year",y=NULL, caption="PHMSA Tranmission incident data 1986-2017")+
-  theme(text=element_text(size=rel(3)),plot.title = element_text(size=rel(3)),plot.caption = element_text(size=rel(1.5)),legend.text = element_text(size=rel(2)),plot.subtitle = element_text(size=rel(2)))+
-  scale_color_manual("IM Rule",values=c('blue','red'),breaks=c("Before","After"))
+  labs(title="Credible Interval of Significant Incidents/Yr.",x="Siginificant Incidents Per Year",y=NULL)+
+  theme(text=element_text(size=rel(3)),plot.title = element_text(size=rel(3)),legend.text = element_text(size=rel(2)),plot.subtitle = element_text(size=rel(2)))+
+  scale_color_manual("IM Rule",values=c("coral2", "cornflowerblue"),breaks=c("Before","After"))
 
 SER <- ggplot(data.frame(x=c(0,15)),aes(x=x))+
   stat_function(fun=dgamma,args = list(ser[1]+3,t[1]+0.1),aes(col='Before'),n=501,lwd=1)+
   stat_function(fun=dgamma,args = list(ser[2]+0.4,t[2]+0.1),aes(col='After'),lwd=1,n=501)+
   theme_light(12,"serif")+
-  labs(title="Credible of Interval Annual Serious Incidents",x="Serious Incidents Per Year",y=NULL, caption="PHMSA Tranmission incident data 1986-2017")+
-  theme(text=element_text(size=rel(3)),plot.title = element_text(size=rel(3)),plot.caption = element_text(size=rel(1.5)),legend.text = element_text(size=rel(2)),plot.subtitle = element_text(size=rel(2)))+
-  scale_color_manual("IM Rule",values=c('blue','red'),breaks=c("Before","After"))
+  labs(title="Credible of Interval Serious Incidents/Yr.",x="Serious Incidents Per Year",y=NULL)+
+  theme(text=element_text(size=rel(3)),plot.title = element_text(size=rel(3)),legend.text = element_text(size=rel(2)),plot.subtitle = element_text(size=rel(2)))+
+  scale_color_manual("IM Rule",values=c("coral2", "cornflowerblue"),breaks=c("Before","After"))
 
 library(ggpubr)
 ggarrange(SER,SIG,Seryr,sigyr,FAT,INJ,fatim,injim,ncol=2,nrow = 4)
 
 ```
   
-It is evident that the Serious and Significant Incidents show obvious diversion of population means before and after the IM Rule, but in opposite directions. However, the trends for the two incident types had been trending in their respective directions for decades prior to the IM Rule. Therefore, it would be a spurious argument to say that IM was responsible for the increase or decrease in incident counts. The Injury and Fatality trends are less conclusive by mere observation alone. There is a noticeable downward shift in Injuries after the IM Rule, but it is uncertain if the shift is statistically significant. The shift in Fatalities is even less than Injuries.  It is likely that there has been no statistical change in the rate from before to after the IM Rule. To validate these observations, the typical tool in a statistician’s belt for this type of comparison is a t-test for continuous measures or a Poisson test for data made up of counts of something. As stated previously, these tests suffer from reliance on inferred probability distributions that may or may not be true and large outliers have undue influence on the answer. Even when all the assumptions are met, the result is a p-value that tells you whether you should reject the null hypothesis (the null hypothesis is that the there is no difference in the two populations) or not. You can never accept the null, i.e. you can never say that the two populations are the same - only whether they are significantly different or not.  
+It is evident that the Serious and Significant Incidents show obvious diversion of population means before and after the IM Rule, but in opposite directions. However, the trends for the two incident types had been trending in their respective directions for decades prior to the IM Rule. Therefore, it would be a spurious argument to say that IM was responsible for the increase or decrease in incident counts. The Injury and Fatality trends are less conclusive by mere observation alone. There is a noticeable downward shift in Injuries after the IM Rule, but it is uncertain if the shift is statistically significant. The shift in Fatalities is even less than Injuries.  It is likely that there has been no statistical change in the rate from before to after the IM Rule. To validate these observations, the typical tool in a statistician’s belt for this type of comparison is a t-test for continuous measures or a Poisson test for data made up of counts of something. As stated previously, these tests suffer from reliance on inferred probability distributions that may or may not be true and large outliers have undue influence on the results. Even when all the assumptions are met, the result is a p-value that tells you whether you should reject the null hypothesis (that there is no difference in the two populations) or not. You can never accept the null, i.e. you can never say that the two populations are the same - only whether they are significantly different or not.  
   
-The more robust method employed here is a Hierarchical Bayesian Model (HBM). The specifics of how an HBM works is beyond the scope of this paper, but an HBM allows you to quantify the uncertainties; large outliers do not have excessive influence on the results; and since it is hierarchical, it can obtain relationships between individual observations and the population. In short, it bridges the gap between (i) considering all the observations as part of one single group with no distinction between them, and (ii) considering each group as a separate entity with no relation to each other. The output of an HBM is a range of credible values that quantifies the uncertainties based on the observations.
+The more robust method employed here is a Hierarchical Bayesian Model (HBM). The specifics of how an HBM works is beyond the scope of this paper, but these types of models are very useful when the data is structured into related groups and you need to compare them.  The benefits of an HBM are that it allows you to quantify the uncertainties; large outliers do not have excessive influence on the results,and it can obtain relationships between individual observations and the population. In short, it bridges the gap between (i) considering all the observations as part of one single group with no distinction between them, and (ii) considering each group as a separate entity with no relation to each other. The output of an HBM is a range of credible values that quantifies the uncertainties based on the observations.
 
 For the incident data, an HBM will be used to infer not just whether there was a statistically significant change, but the size of change as well. Even though it is quite evident that there was a significant change in Serious and Significant Incidents, the analysis will still be used to quantify the magnitude of the change. Since there is such a disparity of scale between the different metrics (ranging from hundreds to single digits), the comparison will be made as the ratio of after to before. Therefore, a ratio of greater than one indicates an increase and a ratio of less than one, a decrease in the rate from After to Before IM. The 95% highest density interval (HDI) will be used to represent the credible range of values for each metric. If the 95% HDI encompasses one, then that indicates there is evidence of no change in the population from one time period to the other.
   
