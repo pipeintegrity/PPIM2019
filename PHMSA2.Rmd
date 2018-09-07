@@ -33,12 +33,16 @@ Figures 1 through 4 show that, even when there is an outlier year with a high nu
 library(ggplot2)
 library(dplyr)
 library(reshape2)
+library(RColorBrewer)
+#library(colorspace)
+#palc <- diverge_hcl(3)
+palb <- brewer.pal(4, "Set1")
 #setwd("C:/Users/00223326/Google Drive/Risk/PHMSA")
 GGT_all=read.csv("byyear.csv")
 #incid=filter(GGT_all, Year>1991)
 
 ggplot(GGT_all,aes(Year,Fatalities, width=0.55))+
-  geom_bar(fill='firebrick3',colour='black',stat='identity')+
+  geom_bar(fill=palb[1],colour='black',stat='identity')+
   geom_hline(yintercept = mean(GGT_all$Fatalities),lty=2,alpha=0.5,lwd=0.7)+
   theme_light(11,"serif")+
   labs(list(title='Fatalities Per Year (1986 - 2017)',y='Fatalitiesr'))+
@@ -52,7 +56,7 @@ Figure 1 shows that the years immediately preceding the Carlsbad, NM incident in
 
 
 ggplot(GGT_all,aes(Year,Injuries, width = 0.55))+
-  geom_bar(fill='cornflowerblue',colour='black',stat='identity')+
+  geom_bar(fill=palb[2],colour='black',stat='identity')+
   geom_hline(yintercept = mean(GGT_all$Injuries),lty=2,alpha=0.5,lwd=0.7)+
   theme_light(11,"serif")+
   labs(list(title='Injuries Per Year (1986 - 2017)',y='Injuries'))+
@@ -65,7 +69,7 @@ It is evident from Figure 2 that there has been little change in the number of i
 
 
 ggplot(GGT_all,aes(Year,Serious,width=0.5))+
-  geom_bar(fill='coral3',colour='black',stat='identity')+
+  geom_bar(fill=palb[3],colour='black',stat='identity')+
   geom_hline(yintercept = mean(GGT_all$Serious),lty=2,alpha=0.5,lwd=0.7)+
   theme_light(11,"serif")+
   labs(list(title='Serious Incidents per Year (1986 - 2017)',y='Serious Incidents'))+
@@ -77,7 +81,7 @@ There is a noticeable downward trend of Serious Incidents in Figure 3, but the l
 ```{r Significant barplot, echo=FALSE, message=FALSE,warning=FALSE,fig.height=3, fig.width=5, fig.cap="Figure 4: Bar plot of Significant Incidents",dpi=300}
 
 ggplot(GGT_all,aes(Year,Significant,width=0.5))+
-  geom_bar(fill='#1F78B4',colour='black',stat='identity')+
+  geom_bar(fill=palb[4],colour='black',stat='identity')+
   geom_hline(yintercept = mean(GGT_all$Significant),lty=2,alpha=0.5,lwd=0.7)+
   theme_light(11,"serif")+
   labs(list(title='Significant Incidents per Year (1986 - 2017)',y='Significant Incidents'))+
@@ -109,11 +113,12 @@ patty=melt(GGT_all, id=c("Year", "BA"))
 patty$BA <- factor(patty$BA,levels=c('Before','After'),ordered=T)
 
 ggplot(filter(patty, variable=="Fatalities"| variable=="Injuries"),aes(variable,value,fill=BA))+
-  geom_boxplot(outlier.shape = 1)+
+  geom_boxplot(outlier.shape = 1,alpha=0.8)+
   labs(list(title="Fatalities and Injuries Per Year Before and After IM",x="Injuries and Fatalities",y="Count/Year"))+
   theme_light(11,"serif")+theme(legend.position="bottom")+
   ylim(0,17)+
-  scale_fill_manual(values=c("coral2", "cornflowerblue"))+
+  #scale_fill_manual(values=c("coral2", "cornflowerblue"))+
+  scale_fill_brewer(type = 'div',palette = "Set1")+
   guides(fill=guide_legend(title="IM Rule"))
 
 ```
@@ -124,11 +129,12 @@ There is a slight downward shift of the median values for the two categories (no
 
 # incid3$Pre_Post <- factor(incid2$Pre_Post,levels=c('Before','After'),ordered=T)
 ggplot(filter(patty, variable=="Serious"| variable=="Significant"),aes(variable,value,fill=BA))+
-  geom_boxplot(outlier.shape = 1)+
+  geom_boxplot(outlier.shape = 1,alpha=0.8)+
   labs(list(title="Incidents Per Year Before and After IM",x="Types of Incidents",y="Count/Year"))+
   theme_light(11,"serif")+
   theme(legend.position="bottom")+
-  scale_fill_manual(values=c("coral2", "cornflowerblue"))+
+  #scale_fill_manual(values=c("coral2", "cornflowerblue"))+
+  scale_fill_brewer(type = 'div',palette = "Set1")+
   guides(fill=guide_legend(title="IM Rule"))
 
 ```
@@ -153,13 +159,14 @@ all_combine = read.csv("all_combine.csv")
 all_combine$BA <- factor(all_combine$BA,levels=c('Before','After'),ordered = T)
 
 ggplot(all_combine, aes(factor(Year), CoF))+
-  geom_boxplot(aes(fill=BA),outlier.shape=1)+
+  geom_boxplot(aes(fill=BA),outlier.shape=1,alpha=0.8)+
   scale_y_log10()+
   labs(list(x="Year", y="CoF (log scale)", title="Range of CoF by Year for Gas Transmisison Incidents"))+
-  guides(fill=guide_legend(title = "IM Rule Status"))+
+  guides(fill=guide_legend(title = "IM Rule"))+
   theme_light(11,"serif")+
   theme(legend.position='bottom')+
-  scale_fill_manual(values=c("coral2", "cornflowerblue"))+
+  #scale_fill_manual(values=c("coral2", "cornflowerblue"))+
+  scale_fill_brewer(type = 'div',palette = "Set1")+
   scale_x_discrete(breaks=c(seq(1986,2017,by = 3)))
 # 
 # ggplot(GGT_all)+geom_histogram(aes(CoF, fill=BA),col='black')+theme_bw()+scale_x_log10()+facet_grid(~BA)+scale_fill_manual(values=c("coral2", "cornflowerblue"))+labs(title="Consequence of Failure Before and After the IM Rule", x="CoF ($) Log Scale",subtitle="PHMSA Onshore Gas Transmission incident data 1986-2017")+guides(fill=guide_legend(title="IM Rule"))
@@ -174,9 +181,10 @@ The year-over-year analysis in Figure 7 shows that the median CoF has a slight d
 GGT_all$BA <- factor(GGT_all$BA,levels=c('Before','After'),ordered=T)
 
 ggplot(all_combine)+
-  geom_boxplot(aes(x=BA,y=CoF,fill=BA),outlier.shape = 1)+
+  geom_boxplot(aes(x=BA,y=CoF,fill=BA),outlier.shape = 1,alpha=0.8)+
   theme_light(11,"serif")+
-  scale_fill_manual(values=c("coral2", "cornflowerblue"))+
+  #scale_fill_manual(values=c("coral2", "cornflowerblue"))+
+  scale_fill_brewer(type = 'div',palette = "Set1")+
   labs(list(title="Range of CoF Before and After IM Rule",x="Consequence of Failure ", y="CoF($)/Incident (log scale)"))+
   theme(legend.position="none")+
   scale_y_log10()
@@ -191,7 +199,9 @@ ggplot(all_combine)+
   geom_density(aes(CoF,y=..density.., fill=BA),col='black', alpha=0.35)+
   theme_light(11,"serif")+
   scale_x_log10()+
-  scale_fill_manual(values=c("coral2", "cornflowerblue"))+labs(title="Consequence of Failure Before and After the IM Rule", x="CoF/Incident (Log Scale)",subtitle="PHMSA Onshore Gas Transmission incident data 1986-2017")+
+  #scale_fill_manual(values=c("coral2", "cornflowerblue"))+
+  scale_fill_brewer(type = 'div',palette = "Set1")+
+  labs(title="Consequence of Failure Before and After the IM Rule", x="CoF/Incident (Log Scale)",subtitle="PHMSA Onshore Gas Transmission incident data 1986-2017")+
   guides(fill=guide_legend(title="IM Rule"))+theme(legend.position = c(0.85,0.75),legend.title = element_text(size=rel(0.9)))
 ```
 
@@ -457,14 +467,14 @@ One potential explanation for the lack of discernible difference, other than inc
 HCA=read.csv("HCA.csv")
 
 #failures in HCAs
-flr=ggplot(HCA)+geom_col(aes(year,flr_mile*1000),fill='firebrick3',col='black')+
+flr=ggplot(HCA)+geom_col(aes(year,flr_mile*1000),fill=palb[1],col='black',alpha=0.9)+
   theme_light(11,"serif")+scale_x_continuous(breaks = c(seq(2004,2017,by=2)))+
   labs(title="HCA Failures per 1,000 Miles",subtitle="Performance Measures 2004-2017",x="Year",y="Failures")+
   theme(plot.margin = margin(0.4,0.4,0.4,0.4,"cm"))
 
 
 #leaks in HCAs
-lk=ggplot(HCA)+geom_col(aes(year,lk_mile*1000),fill='steelblue2',col='black')+
+lk=ggplot(HCA)+geom_col(aes(year,lk_mile*1000),fill=palb[2],col='black',alpha=0.9)+
   theme_light(11,"serif")+scale_x_continuous(breaks = c(seq(2004,2017,by=2)))+
   labs(title="HCA Leaks per 1,000 Miles",subtitle="Performance Measures 2004-2017",x="Year",y="Leaks")+
   theme(plot.margin = margin(0.4,0.4,0.4,0.4,"cm"))
@@ -472,7 +482,7 @@ lk=ggplot(HCA)+geom_col(aes(year,lk_mile*1000),fill='steelblue2',col='black')+
 
 #Significant Incidents in HCA
 sig=ggplot(HCA)+
-  geom_col(aes(year, sig/miles*1000),fill='violetred2',col='black')+
+  geom_col(aes(year, sig/miles*1000),fill=palb[3],col='black',alpha=0.9)+
   theme_light(11,"serif")+scale_x_continuous(breaks = c(seq(2004,2017, by=2)))+
   labs(title="HCA Significant Incidents per 1,000 Miles",y="Significant Incidents",x="Year",subtitle="Performance Measures 2004-2017")+
   theme(plot.margin = margin(0.4,0.4,0.4,0.4,"cm"))
