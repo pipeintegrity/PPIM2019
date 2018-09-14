@@ -34,14 +34,26 @@ library(ggplot2)
 library(dplyr)
 library(reshape2)
 library(RColorBrewer)
+library(readr)
 pal <- brewer.pal(4, name = "Set1")
 #setwd("C:/Users/00223326/Google Drive/Risk/PHMSA")
-GGT_all=read.csv("byyear.csv")
+all_combine = read.csv("all_combine.csv")
+all_combine <- all_combine[,1:18] #drop CoF and recalc from scratch
+all_combine[is.na(all_combine)] <- 0
+all_combine <- all_combine %>% as_tibble() %>%  mutate(CoF=TOTAL_COST_IN84*2.43+INJURE*9.6e6*0.313+FATAL*9.6e6)
+all_combine$BA <- factor(all_combine$BA,levels=c('Before','After'),ordered=T)
+
+# create by year summary from raw incident data
+byyear <- all_combine %>% group_by(Year) %>% summarise(Fatalities=sum(FATAL), Injuries=sum(INJURE),CoF=sum(TOTAL_COST_IN84*2.43+INJURE*9.6e6*0.313+FATAL*9.6e6), Serious=length(SERIOUS[SERIOUS=="YES"]), Significant=length(SIGNIFICANT[SIGNIFICANT=="YES"]))
+
+byyear$BA <- ifelse(byyear$Year<2004,"Before", "After")
+byyear$BA <- factor(byyear$BA,levels=c('Before','After'),ordered=T)
+
 #incid=filter(GGT_all, Year>1991)
 
-ggplot(GGT_all,aes(Year,Fatalities, width=0.55))+
+ggplot(byyear,aes(Year,Fatalities, width=0.55))+
   geom_bar(fill=pal[1],colour='black',stat='identity', aplha=0.9)+
-  geom_hline(yintercept = mean(GGT_all$Fatalities),lty=2,alpha=0.5,lwd=0.7)+
+  geom_hline(yintercept = mean(byyear$Fatalities),lty=2,alpha=0.5,lwd=0.7)+
   theme_bw(11,"serif")+
   labs(list(title='Fatalities Per Year (1986 - 2017)',y='Fatalitiesr'))+
   scale_x_continuous(breaks=c(1986,seq(1990,2017,by = 5)))
@@ -53,9 +65,9 @@ Figure 1 shows that the years immediately preceding the Carlsbad, NM incident in
 ```{r Injury barplot,echo=FALSE,message=FALSE, warning=FALSE,fig.height=3 , fig.width=4.5, fig.cap="Figure 2: Bar Plot of Injuries/ Yr.",dpi=300}
 
 
-ggplot(GGT_all,aes(Year,Injuries, width = 0.55))+
+ggplot(byyear,aes(Year,Injuries, width = 0.55))+
   geom_bar(fill=pal[2],colour='black',stat='identity',alpha=0.9)+
-  geom_hline(yintercept = mean(GGT_all$Injuries),lty=2,alpha=0.5,lwd=0.7)+
+  geom_hline(yintercept = mean(byyear$Injuries),lty=2,alpha=0.5,lwd=0.7)+
   theme_bw(11,"serif")+
   labs(list(title='Injuries Per Year (1986 - 2017)',y='Injuries'))+
   scale_x_continuous(breaks=c(1986,seq(1990,2017,by = 5)))
@@ -66,9 +78,9 @@ It is evident from Figure 2 that there has been little change in the number of i
 ```{r Serious Incident barplot, echo=FALSE, message=FALSE,warning=FALSE,fig.height=3, fig.width=4.5, fig.cap="Figure 3: Bar plot of Serious Incidents",dpi=300}
 
 
-ggplot(GGT_all,aes(Year,Serious,width=0.5))+
+ggplot(byyear,aes(Year,Serious,width=0.5))+
   geom_bar(fill=pal[3],colour='black',stat='identity',alpha=0.9)+
-  geom_hline(yintercept = mean(GGT_all$Serious),lty=2,alpha=0.5,lwd=0.7)+
+  geom_hline(yintercept = mean(byyear$Serious),lty=2,alpha=0.5,lwd=0.7)+
   theme_bw(11,"serif")+
   labs(list(title='Serious Incidents per Year (1986 - 2017)',y='Serious Incidents'))+
   scale_x_continuous(breaks=c(1986,seq(1990,2017,by = 5)))
@@ -78,9 +90,9 @@ There is a noticeable downward trend of Serious Incidents in Figure 3, but the l
 
 ```{r Significant barplot, echo=FALSE, message=FALSE,warning=FALSE,fig.height=3, fig.width=4.5, fig.cap="Figure 4: Bar plot of Significant Incidents",dpi=300}
 
-ggplot(GGT_all,aes(Year,Significant,width=0.5))+
+ggplot(byyear,aes(Year,Significant,width=0.5))+
   geom_bar(fill=pal[4],colour='black',stat='identity')+
-  geom_hline(yintercept = mean(GGT_all$Significant),lty=2,alpha=0.5,lwd=0.7)+
+  geom_hline(yintercept = mean(byyear$Significant),lty=2,alpha=0.5,lwd=0.7)+
   theme_bw(11,"serif")+
   labs(list(title='Significant Incidents per Year (1986 - 2017)',y='Significant Incidents'))+
   scale_x_continuous(breaks=c(1986,seq(1990,2017,by = 5)))
@@ -94,7 +106,7 @@ Table 1 summarizes the mean annual  rates for injuries, fatalities and incidents
 library(knitr)
 # inc_melt <- melt(GGT_all[,c(2:3,7:8,12)],id.vars = "BA")
 # inc_melt %>% group_by(BA,variable) %>%  summarise(avg=mean(value)) %>% arrange(desc(variable),.by_group=FALSE)
-data <- melt(GGT_all[,c(2:5,7)],id.vars="BA") %>% group_by(variable,BA) %>% summarise(avg=round(mean(value),1))
+data <- melt(byyear[,c(2:5,7)],id.vars="BA") %>% group_by(variable,BA) %>% summarise(avg=round(mean(value),1))
 data$BA <- factor(data$BA,levels=c('Before','After'),ordered = T)
 col=c('Before','After')
 row=c('Serious Incidents','Significant Incidents','Fatalities','Injuries')
@@ -107,11 +119,11 @@ You also should also be cognizant that these are discrete measures, meaning that
   
 ```{r Injury and Fatality boxplot, echo=FALSE, message=FALSE,warning=FALSE,fig.height=3, fig.width=4.5, fig.cap="Figure 5: BoxPlot of Injuries and Fatalities Before and After the IM Rule",dpi=300}
 # incid=read.csv("all_incidents.csv")
-patty=melt(GGT_all, id=c("Year", "BA"))
+patty=melt(byyear, id=c("Year", "BA"))
 patty$BA <- factor(patty$BA,levels=c('Before','After'),ordered=T)
 
 ggplot(filter(patty, variable=="Fatalities"| variable=="Injuries"),aes(variable,value,fill=BA))+
-  geom_boxplot(outlier.shape = 1, aplpha=0.9)+
+  geom_boxplot(outlier.shape = 1, alpha=0.9, outlier.alpha = 0.5)+
   labs(list(title="Fatalities and Injuries Per Year Before and After IM",x="Injuries and Fatalities",y="Count/Year"))+
   theme_bw(11,"serif")+theme(legend.position="bottom")+
   ylim(0,17)+
@@ -127,7 +139,7 @@ There is a slight downward shift of the median values for the two categories (no
 
 # incid3$Pre_Post <- factor(incid2$Pre_Post,levels=c('Before','After'),ordered=T)
 ggplot(filter(patty, variable=="Serious"| variable=="Significant"),aes(variable,value,fill=BA))+
-  geom_boxplot(outlier.shape = 1,alpha=0.9)+
+  geom_boxplot(outlier.shape = 1,alpha=0.9, outlier.alpha = 0.5)+
   labs(list(title="Incidents Per Year Before and After IM",x="Types of Incidents",y="Count/Year"))+
   theme_bw(11,"serif")+
   theme(legend.position="bottom")+
@@ -154,10 +166,13 @@ With large fluctuations in property damage, fatalities and injuries from one yea
 # GGT_CoF=read.csv("GGT_all.csv")
 # GGT_CoF$BA <- ifelse(GGT_CoF$Year>2003,"After","Before")
 all_combine = read.csv("all_combine.csv")
+all_combine <- all_combine[,1:18]
+all_combine <- all_combine %>% as_tibble() %>% mutate(CoF = TOTAL_COST_CURRENT+INJURE*9.6e6*0.313+FATAL*9.6e6)
 all_combine$BA <- factor(all_combine$BA,levels=c('Before','After'),ordered = T)
 
+
 ggplot(all_combine, aes(factor(Year), CoF))+
-  geom_boxplot(aes(fill=BA),outlier.shape=1,alpha=0.9)+
+  geom_boxplot(aes(fill=BA),outlier.shape=1,alpha=0.9, outlier.alpha = 0.5)+
   scale_y_log10()+
   labs(list(x="Year", y="CoF (log scale)", title="Range of CoF per Incident by Year"))+
   guides(fill=guide_legend(title = "IM Rule"))+
@@ -176,10 +191,10 @@ The year-over-year analysis in Figure 7 shows that the median CoF has a slight d
 ```{r CoF Boxplot,echo=FALSE,warning=FALSE, message=FALSE,fig.height=3, fig.width=4.5,fig.cap="Figure 8: Range of CoF Before and After the IM Rule",dpi=300}
 
 #incid$Pre_Post <- factor(incid$Pre_Post,levels=c('Before','After'),ordered=T)
-GGT_all$BA <- factor(GGT_all$BA,levels=c('Before','After'),ordered=T)
+#
 
 ggplot(all_combine)+
-  geom_boxplot(aes(x=BA,y=CoF,fill=BA),outlier.shape = 1,alpha=0.9)+
+  geom_boxplot(aes(x=BA,y=CoF,fill=BA),outlier.shape = 1,alpha=0.9, outlier.alpha = 0.5)+
   theme_bw(11,"serif")+
   #scale_fill_manual(values=c("coral2", "cornflowerblue"))+
   scale_fill_brewer(type = "div",palette = "Set1")+
@@ -206,7 +221,7 @@ ggplot(all_combine)+
 Figures 8 and 9 demonstrate that the range of values of the two populations of CoFs are nearly identical, but there is definitely an increase in the number of incidents after the IM Rule, as shown in Figure 6. Stochastic count data, such as the number of incidents, fatalities and injuries in a given year, are commonly modeled as a Poisson process. The Poisson distribution allows a inference of the probability of seeing a certain count of something over a given time period based on the rate seen in the past. But by itself it does not tell you if the mean rate has significantly changed from one-time period to another; especially when there are wide variations from one year to the next. To represent this uncertainty, curves of the credible values are plotted for the mean of the two populations (before and after). The plots in Figure 10 show the range of credible values for the four count metrics of Serious and Significant Incidents, as well as Fatalities and Injuries, and the actual count for each year, in a separate plot for each metric.
   
 ```{r Before and After IM,echo=FALSE,,warning=FALSE, message=FALSE, fig.width=6.5,fig.cap="Figure 10: Range of Credible Values Before and After the IM Rule",fig.height=7,dpi=400}
-byyear <- read.csv("byyear.csv")
+#byyear <- read.csv("byyear.csv")
 
 fatim <- ggplot(byyear)+
   geom_path(aes(Year, Fatalities),col='turquoise3',lwd=1)+
@@ -308,7 +323,7 @@ It is evident that the Serious and Significant Incidents show obvious diversion 
   
 The more robust method employed here is a Hierarchical Bayesian Model (HBM). The specifics of how an HBM works is beyond the scope of this paper, but these types of models are very useful when the data is structured into related groups and you need to compare them.  The benefits of an HBM are that it allows you to quantify the uncertainties; large outliers do not have excessive influence on the results,and it can obtain relationships between individual observations and the population. In short, it bridges the gap between (i) considering all the observations as part of one single group with no distinction between them, and (ii) considering each group as a separate entity with no relation to each other. The output of an HBM is a range of credible values that quantifies the uncertainties based on the observations.
 
-For the incident data, an HBM will be used to infer not just whether there was a statistically significant change, but the size of change as well. Even though it is evident that there was a significant change in Serious and Significant Incidents, the analysis will still be used to quantify the magnitude of the change. Since there is such a disparity of scale between the different metrics (ranging from hundreds to single digits), the comparison will be made as the ratio of after to before. Therefore, a ratio of greater than one indicates an increase and less than one, a decrease in the rate from After to Before IM. The 95% highest density interval (HDI) will be used to represent the credible range of values for each metric. If the 95% HDI encompasses one, then that indicates there is evidence of no change in the population from one time period to the other.
+For the incident data, an HBM will be used to infer not just whether there was a statistically significant change, but the size of change as well. Even though it is evident that there was a significant change in Serious and Significant Incidents, the analysis will still be used to quantify the magnitude of the change. Since there is such a disparity of scale between the different metrics (ranging from hundreds to single digits), the comparison will be made as the ratio of after to before. Therefore, a ratio of greater than one indicates an increase and less than one, a decrease in the rate from After to Before IM. The 95% highest density interval (HDI) will be used to represent the most credible range of values for each metric. If the 95% HDI of the ratio encompasses one, then that indication of no change in the population from one time period to the other.
   
 ```{r Poisson JAGS model, echo=FALSE, fig.height=5, fig.width=6.0, dpi=300, message=FALSE, warning=FALSE, include=TRUE, results="hide"}
 
@@ -338,6 +353,7 @@ For the incident data, an HBM will be used to infer not just whether there was a
 require(rjags)
 require(dplyr)
 require(BEST)
+set.seed(329)
 
 ####injury MCMC####
 # Setting up the data
@@ -426,14 +442,16 @@ serMCMC <- as_tibble(as.matrix(samples_ser)) #convert to a tibble
 
 ##plotting all four together ####
 par(mfrow=c(2,2))
-plotPost(injMCMC$rate_ratio, compVal = 1, main="Ratio of Injury Rates",xlab=bquote(lambda[After]/lambda[Before]))
-plotPost(fatMCMC$rate_ratio, compVal = 1, main="Ratio of Fatality Rates",xlab=bquote(lambda[After]/lambda[Before]))
-plotPost(sigMCMC$rate_ratio, compVal = 1, main="Ratio of Significant\nIncident Rates",xlab=bquote(lambda[After]/lambda[Before]))
-plotPost(serMCMC$rate_ratio, compVal = 1, main="Ratio of Serious\nIncident Rates",xlab=bquote(lambda[After]/lambda[Before]))
+plotPost(injMCMC$rate_ratio, compVal = 1, main="Injury Ratio",xlab=bquote(lambda[After]/lambda[Before]))
+plotPost(fatMCMC$rate_ratio, compVal = 1, main="Fatality Ratio ",xlab=bquote(lambda[After]/lambda[Before]))
+plotPost(sigMCMC$rate_ratio, compVal = 1, main="Significant Incident Ratio",xlab=bquote(lambda[After]/lambda[Before]))
+plotPost(serMCMC$rate_ratio, compVal = 1, main="Serious Incident Ratio",xlab=bquote(lambda[After]/lambda[Before]))
 
 
 ```
     
+The HDI for the ratio of fatailties is approximately centered on one, indicating that there is no change in the rate fo fatilites after the IM rule.  The HDI for the ratio of injuries does not include one it barely misses including it by about 0.01.  In practical terms there is no significant difference in 1 and 0.99 therefore it can be inferred that there likely has not been a significant change in the rate of injuries based on the data at this time.  Since the HDI of this metric is so close to one and the mean rate at 0.80 additional year's data may be required to make a firm conclusion.  The Significant and Serious incidents show an approximate 50% change in rates on average but in opposite directions.  With Significant incidents increasing and Serious decreasing.
+   
 Since the assumptions for a t-test are are not met, an HBM will be used based on a continuous distribution of values.  As in the previous analysis, if the credible range of the ratios includes one, then it is said to be no statistical difference between the two samples.  Note that since the consequences span several magnitudes of order, this analysis is based on the $log_{10}$ of the CoF.
   
 ```{r Difference of means, echo=FALSE, warning=FALSE, message=FALSE,dpi=300, fig.cap="Figure 10: Difference of CoF Means", fig.width=4.5, fig.height=3}
@@ -448,7 +466,7 @@ Since the assumptions for a t-test are are not met, an HBM will be used based on
 # plotPost(p_fat$mu1 - p_fat$mu2,xlab=bquote(mu[Before]-mu[After]),main="Difference of Means for Fatalities")
 
 #Log10 CoF comparison
-p_coflog <- BESTmcmc(log10(GGT_all$CoF[1:18]),log10(GGT_all$CoF[19:32]),numSavedSteps = 1e4)
+p_coflog <- BESTmcmc(log10(byyear$CoF[1:18]),log10(byyear$CoF[19:32]),numSavedSteps = 1e4)
 
 
 #par(cex.main=0.5)
@@ -456,7 +474,7 @@ plotPost(10^(p_coflog$mu2)/10^(p_coflog$mu1),xlab=bquote(mu[After]/mu[Before]),m
 
 ```
   
-Although the number of incidents has gone up, the aggregated consequences have not when viewed on an annual basis. Even though there was a large spike seen in 2010, the population of inflation-adjusted consequences has not changed. If the huge outlier of San Bruno was not included the annualized CoF would have been down relative to the Before IM Rule period.
+The HDI of Consequences includes one indicating that although the number of incidents has gone up, the aggregated consequences have not when viewed on an annual basis. Even though there was a large spike seen in 2010, the population of inflation-adjusted consequences has not changed.  This confirms the qualitative results seen in Figure 9.
   
 ###HCA Performance Measures
 One potential explanation for the lack of discernible difference, other than incident counts, between Before and After the IM Rule is that most of the Subpart O requirements only apply to HCAs, which only make up roughly 7% of transmission pipe nationally. If IM were having an effect, it would be evident in the performance measures and the incident rates within HCAs. The following plots will examine the number of leaks, failures and Significant Incidents per 1,000 miles of HCA. Because HCA mileage is much less than the total transmission mileage, it makes sense to normalize the count data to HCA mileage since small changes in the number of occurrences has a larger effect on the normalized rate. Note, there is no plot for Serious Incidents in HCAs because there has only been a total of four in the fourteen years of performance measures reporting.
@@ -486,7 +504,7 @@ sig=ggplot(HCA)+
  theme(plot.margin = margin(0.3,0.3,0.3,0.3,"cm"))
 
 #combined plot of leaks and failures and significant incidents
-ggarrange(flr,lk,sig,nrow = 3)
+ggarrange(lk, flr, sig,nrow = 3)
 ```
   
 Contrary to expectations, the leaks and failures in HCAs appear to be increasing over time. The rate of Significant Incidents does not demonstrate any apparent trend over time. Since HCAs were not defined prior to publishing to the IM Rule, there is no way to compare these rates to those predating the IM Rule. However, a reasonable assumption is that the rates would be declining as IM programs mature and most HCAs have had multiple rounds of assessments. To assess whether these observed changes are more than chance, the performance measures were tested just as the overall incident data to see if there is a significant change in the rate of occurrence from the first seven years of performance reporting to the most recent seven years. The results are reported as credible range of the 95% HDI for each parameter. As before, since we are testing the ratio of the two rates of occurrence, if the range of credible values includes one, then that is evidence there is no difference between the two groups.
