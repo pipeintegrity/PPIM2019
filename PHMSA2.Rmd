@@ -26,9 +26,10 @@ As a reaction to high-profile incidents, Congress passed the Pipeline Safety Imp
 ###Discussion
 The impetus for creating the IM Rule was a number of high-profile incidents that involved loss of life.  One of the most notable was likely the Carlsbad, NM incident in 2000. Even though the magnitude of this incident far exceeded any other pipeline accident in recent history at the time, the total number of gas transmission incidents that year were not inordinate and the number of fatalities in the years immediately preceding and following it are consistent with long-term averages. So this begs the question: Are pipelines safer today after IM Rule or were these incidents "Black Swan" events[^3]?    
 
-Figures 1 through 4 show that, even when there is an outlier year with a high number of incidents injuries or fatalities the following year typically regresses to the average or below average (the mean rate is shown as a dashed line in Figures 1 -4).  Because of the stochastic nature of incident rates, the correlations relative to time are largely non-existent.  The only metric that exhibits a consistent trend is the Serious Incident rate but the correlation is still relatively weak.  The data back to 1986 in Figures 1 and 2 show that the injury and fatality rates were not inconsistent with with historical rates leading up to the IM Rule in 2003 and following it with the exception of a very small number of outlier years.  Based on this, it indicates that trends in incident rates are not time dependent and that each year, from a statistical point of view, is an independent event. This means what happened the year before does not influence what happens the following year.  This is not to imply that incidents are random, each one has a unique set of causes and effects.  But rather this implies that one incident doesn't influence a second one somewhere else.  Since the annual incident statistics are statistically independent, it allows the treatment of the years before and after the IM Rule as two separate populations.  Then statistical tests can be applied to determine if there is a statistically significant difference in the two groups  This is analogous to the common methodology employed in medical studies, where a group is tested before and after a proposed treatment to determine if it was effective.  In this case the "treatment" will be the IM Rule.
+Figures 1 through 4 show that, even when there is an outlier year with a high number of incidents injuries or fatalities the following year typically regresses to the average or below average (the mean rate is shown as a dashed line in Figures 1 -4).  Because of the stochastic nature of incident rates, the correlations relative to time are largely non-existent.  The only metric that exhibits a consistent trend is the Serious Incident rate but the correlation is still relatively weak.  The data back to 1986 in Figures 1 and 2 show that the injury and fatality rates were not inconsistent with historical rates leading up to the IM Rule in 2003 and following it with the exception of a very small number of outlier years.  Based on this, it indicates that trends in incident rates are not time dependent and that each year, from a statistical point of view, is an independent event. This means what happened the year before does not influence what happens the following year.  This is not to imply that incidents are random, each one has a unique set of causes and effects.  But rather this implies that one incident doesn't influence a second one somewhere else.  Since the annual incident statistics are statistically independent, it allows the treatment of the years before and after the IM Rule as two separate populations.  Then statistical tests can be applied to determine if there is a statistically significant difference in the two groups  This is analogous to the common methodology employed in medical studies, where a group is tested before and after a proposed treatment to determine if it was effective.  In this case the "treatment" will be the IM Rule.
 
-```{r Fatality barplot, echo=FALSE, message=FALSE, warning=FALSE, fig.width=4.5,fig.height=3,fig.cap="Figure 1: Bar Plot of Fatalities per Year",dpi=300}
+```{r Fatality barplot, echo=FALSE, message=FALSE, warning=FALSE, fig.width=4.5,fig.height=3.0,fig.cap="Figure 1: Bar Plot of Fatalities per Year",dpi=300}
+
 
 library(ggplot2)
 library(dplyr)
@@ -37,6 +38,7 @@ library(RColorBrewer)
 library(readr)
 pal <- brewer.pal(4, name = "Set1")
 #setwd("C:/Users/00223326/Google Drive/Risk/PHMSA")
+
 all_combine = read.csv("all_combine.csv")
 all_combine <- all_combine[,1:18] #drop CoF and recalc from scratch
 all_combine[is.na(all_combine)] <- 0
@@ -62,7 +64,7 @@ ggplot(byyear,aes(Year,Fatalities, width=0.55))+
   
 Figure 1 shows that the years immediately preceding the Carlsbad, NM incident in 2000 and the years immediately following it were not out of the typical range of one or two fatalities per year until 2010 when the San Bruno, CA incident happened, but then was followed by three consecutive years with zero fatalities.  The number of fatalities for gas transmission has been extremely low for most years for the last thirty years with outlier years attributed to single large incidents.  If you were to exclude the extreme outlier events of Carlsbad and San Bruno from the data, the year 2000 would had three fatalities and 2010 there would have had only two.  This shows that as a general trend, fatalities are very low and outlier years are attributable to single events and not indicative of the whole industry.
   
-```{r Injury barplot,echo=FALSE,message=FALSE, warning=FALSE,fig.height=3 , fig.width=4.5, fig.cap="Figure 2: Bar Plot of Injuries/ Yr.",dpi=300}
+```{r Injury barplot,echo=FALSE,message=FALSE, warning=FALSE,fig.width=4.5, fig.height=3.0, fig.cap="Figure 2: Bar Plot of Injuries/ Yr.",dpi=300}
 
 
 ggplot(byyear,aes(Year,Injuries, width = 0.55))+
@@ -75,7 +77,7 @@ ggplot(byyear,aes(Year,Injuries, width = 0.55))+
   
 It is evident from Figure 2 that there has been little change in the number of injuries per year, possibly even a slight decline, until the San Bruno, CA incident in 2010 which accounted for fifty-one of the sixty-one injuries that year.  The years following it have mostly seen injury rates at or below historical averages.  The broken line on the chart represents the average of the entire data set which is heavily influenced by 2010.  Again, neither the average nor the trend reveals anything noteworthy.  
 
-```{r Serious Incident barplot, echo=FALSE, message=FALSE,warning=FALSE,fig.height=3, fig.width=4.5, fig.cap="Figure 3: Bar plot of Serious Incidents",dpi=300}
+```{r Serious Incident barplot, echo=FALSE, message=FALSE,warning=FALSE,fig.width=4.5,fig.height=3.5, fig.cap="Figure 3: Bar plot of Serious Incidents",dpi=300}
 
 
 ggplot(byyear,aes(Year,Serious,width=0.5))+
@@ -87,11 +89,12 @@ ggplot(byyear,aes(Year,Serious,width=0.5))+
 ```
 
 There is a noticeable downward trend of Serious Incidents in Figure 3, but the large variability year-over-year indicates that the correlation with time is likely very weak.  There has been several below average years, which were followed by increasing years that were above average in the past. However, the last few years have reflected an increasing trend.  If you observe the Serious incident rate starting in 2004, the first full year after the IM Rule was published, there was a consistent increase each year up through 2007, (which coincided with the deadline for having the top 50% of the baseline assessment HCAs completed) and then a gradual decrease through 2012, which has been trending upward since then.  A similar trend is seen in the injury data.  Excluding the large outlier of the San Bruno incident in 2010, the injury rate per year has been below average, though it was trending down even before the IM Rule.  
+  
+```{r Significant barplot, echo=FALSE, message=FALSE,warning=FALSE,fig.width=4.5,fig.height=3.0, fig.cap="Figure 4: Bar plot of Significant Incidents",dpi=300}
 
-```{r Significant barplot, echo=FALSE, message=FALSE,warning=FALSE,fig.height=3, fig.width=4.5, fig.cap="Figure 4: Bar plot of Significant Incidents",dpi=300}
 
 ggplot(byyear,aes(Year,Significant,width=0.5))+
-  geom_bar(fill=pal[4],colour='black',stat='identity')+
+  geom_bar(fill=pal[4],colour='black',stat='identity',alpha=0.9)+
   geom_hline(yintercept = mean(byyear$Significant),lty=2,alpha=0.5,lwd=0.7)+
   theme_bw(11,"serif")+
   labs(list(title='Significant Incidents per Year (1986 - 2017)',y='Significant Incidents'))+
@@ -100,16 +103,16 @@ ggplot(byyear,aes(Year,Significant,width=0.5))+
 
 The Significant Incident rates were relatively static through 2003 and then started trending upward with some rates doubling or more that from the late 1990's.  This trend is on par with Serious Incidents but runs in the opposite direction and the trend is not consistent - steadily increasing from 2004 through 2011, then decreasing for a couple years and increasing following that.  However, the incident rate has remained above the long-term average for over a decade.  Since Significant Incidents are dependent only on a property damage threshold, it suggests that the inflation adjusted cost of incidents is increasing over time.
 
-Table 1 summarizes the mean annual  rates for injuries, fatalities and incidents for the two study periods (before and after IM).  Even though some of the categories show a downward shift, that in itself is not proof of an actual change in the overall population.  For instance, if several random groups of people from a large population were taken and their heights were averaged.  The calculated average would vary from group-to-group, probably by a significant amount, even though there is no change in the overall population.  In the same way you cannot infer changes based on a variation in the simple averages alone.  In addition, if the groups have a small number of people in each one and one of the people in a sample group is extremely tall or short, the average for that group will be skewed by that one person.  The influence of outliers on  small samples makes arithmetic averages a weak measure of inference regarding the underlying population and shouldn't be relied upon solely when looking for changes. That is why this paper will use more robust statistical tests to determine if the changes in the samples result from chance or reflect a significant change in the overall population.  
+Table 1 summarizes the mean annual rates for fatalities, injuries and incidents for the two study periods (before and after IM).  Even though some of the categories show a downward shift in the average rate, that in itself is not proof of an actual change in the overall population.  For instance, if several random groups of people from a large population were taken and their heights were averaged.  The calculated average would vary from group-to-group, probably by a significant amount, even though there is no change in the overall population.  In the same way you cannot infer changes based on a variation in the simple averages alone.  In addition, if the groups have a small number of people in each one and one of the people in a sample group is extremely tall or short, the average for that group will be skewed by that one person.  The influence of outliers on  small samples makes arithmetic averages a weak measure of inference regarding the underlying population and shouldn't be relied upon solely when looking for changes. That is why this paper will use more robust statistical tests to determine if the changes in the samples result from chance or reflect a significant change in the overall population.  
 
 ```{r Table of before and after,echo=FALSE,warning=FALSE, message=FALSE}
 library(knitr)
-# inc_melt <- melt(GGT_all[,c(2:3,7:8,12)],id.vars = "BA")
+# inc_melt <- melt(byyear[,c(2:3,7:8,12)],id.vars = "BA")
 # inc_melt %>% group_by(BA,variable) %>%  summarise(avg=mean(value)) %>% arrange(desc(variable),.by_group=FALSE)
-data <- melt(byyear[,c(2:5,7)],id.vars="BA") %>% group_by(variable,BA) %>% summarise(avg=round(mean(value),1))
+data <- melt(byyear[,c(2:3,5:7)],id.vars="BA") %>% group_by(variable,BA) %>% summarise(avg=round(mean(value),1))
 data$BA <- factor(data$BA,levels=c('Before','After'),ordered = T)
 col=c('Before','After')
-row=c('Serious Incidents','Significant Incidents','Fatalities','Injuries')
+row=c('Fatalities','Injuries','Serious Incidents','Significant Incidents')
 m= matrix(data$avg,nrow = 4,ncol = 2,byrow = T,dimnames = list(row,col))
 kable(m,caption = "Table 1: Averages Before and After the IM Rule",format = 'pandoc')
 
@@ -118,6 +121,7 @@ kable(m,caption = "Table 1: Averages Before and After the IM Rule",format = 'pan
 You also should also be cognizant that these are discrete measures, meaning that the count can only change by whole numbers from one year to the next (there is no such thing as half an incident).  A change of one or two can easily be random fluctuation rather than a systemic change in the population even though it might be large percentage of what is a low occurrence rate to begin with.  Therefore, too much significance should not be assigned to large percentage changes for discrete measures with a low rate of occurrence without consideration for the uncertainty due to the fluctuation from one year to the next. Both figures 5 and 6 are boxplots which represent the median and range of values as well as showing outliers in data.
   
 ```{r Injury and Fatality boxplot, echo=FALSE, message=FALSE,warning=FALSE,fig.height=3, fig.width=4.5, fig.cap="Figure 5: BoxPlot of Injuries and Fatalities Before and After the IM Rule",dpi=300}
+
 # incid=read.csv("all_incidents.csv")
 patty=melt(byyear, id=c("Year", "BA"))
 patty$BA <- factor(patty$BA,levels=c('Before','After'),ordered=T)
@@ -135,7 +139,7 @@ ggplot(filter(patty, variable=="Fatalities"| variable=="Injuries"),aes(variable,
   
 There is a slight downward shift of the median values for the two categories (note that one extreme outlier of 61 injuries is not shown for purposes of scale).  However, there is still significant overlap in the before and after ranges for Fatalities suggesting that the difference in the rates may not be a systemic change to the population relative to before the IM Rule.  The observed difference could be due to the random fluctuations in the samples.  Not enough shift is evident to support qualitative judgment that the change is significant. The offset of the Injury boxplots however, suggests that there may be a significant difference between the two groups.  This will be examined with statistical tests in more detail later in this paper.
   
-```{r Incident Type before and after, echo=FALSE, message=FALSE,warning=FALSE,fig.height=3, fig.width=4.5, fig.cap="Figure 6: BoxPlot of Incident Types Before and After the IM Rule",dpi=300}
+```{r Incident Type before and after, echo=FALSE, message=FALSE,warning=FALSE,fig.width=4.5,fig.height=3.0, fig.cap="Figure 6: BoxPlot of Incident Types Before and After the IM Rule",dpi=300}
 
 # incid3$Pre_Post <- factor(incid2$Pre_Post,levels=c('Before','After'),ordered=T)
 ggplot(filter(patty, variable=="Serious"| variable=="Significant"),aes(variable,value,fill=BA))+
@@ -157,18 +161,19 @@ The preceding graphical techniques are more qualitative than quantitative as the
 In addition, count data such as the number of incidents or injuries in a given year would follow a Poisson distribution. The Poisson distribution allows a calculation of the probability of seeing a certain count of something over a given time period based on the rate seen in the past. There is a Poisson test for testing the differences in count data but as with the t-test it relies on assumptions about the data distribution which may not be met.  So in this study we will use a Bayesian analysis to develop a range of credible values for the count as well as continuous data.
 
 An argument can be made that the number of incidents and injuries are related to the overall mileage of pipe. However, the amount of transmission mileage is relatively static with roughly an 8% difference between the minimum and maximum mileage over 32 years, with large swings up and down in incident rates, indicating that the mileage and incident counts are not correlated. So, to make the results more readily interpretable, they were not normalized to mileage for overall incidents. However, when the performance measures for HCAs are reviewed.  It will be normalized to HCA mileage since fluctuations in that much smaller number of miles is more significant.   
+  
 With large fluctuations in property damage, fatalities and injuries from one year to the next, it is difficult to compare one year to another. To measure incident severity there needs to be a common unit of measure. Risk is always compared in dollars as the unit of measure. For this analysis, a total consequence of failure (CoF), was calculated for each individual incident in the dataset, not the aggregated annual numbers. The CoF results from the sum of (i), (ii), and (iii):  (i) the inflation-adjusted property damage reported, (ii) the number of fatalities multiplied by the Value of a Statistical Life used by the Department of Transportation (9.6 million[^4]), and (iii) injuries which are equated to about 1/3 of a fatality – which is an average from the previous reference, which creates a common measure for each incident. For purposes of comparison, the CoF for incidents were plotted two ways: first, by individual year (Figure 7); and then aggregated into groups of Before and After the IM Rule (Figure 8). Because the magnitude of the CoF spans several orders of magnitude, all the comparisons are scaled to a base-ten logarithm. Both Figures 7 and 8 are boxplots which are useful for representing the median and range of values as well as detecting outliers in data.  
 
 [^3]: A Black Swan is a  metaphor for extreme outliers that are rare and nearly impossible to predict, yet have consequences that are far beyond any normal expectation.
 [^4]: https://www.transportation.gov/sites/dot.gov/files/docs/VSL2015_0.pdf
-
-```{r CoF boxplot by year,echo=FALSE,warning=FALSE, dpi=300,fig.height=3,fig.width=4.5, fig.cap="Figure 7: Range of CoF by year"}
-# GGT_CoF=read.csv("GGT_all.csv")
+  
+```{r CoF boxplot by year,echo=FALSE,warning=FALSE, dpi=300,fig.width=4.5,fig.height=3, fig.cap="Figure 7: Range of CoF by year"}
+# GGT_CoF=read.csv("byyear.csv")
 # GGT_CoF$BA <- ifelse(GGT_CoF$Year>2003,"After","Before")
-all_combine = read.csv("all_combine.csv")
-all_combine <- all_combine[,1:18]
-all_combine <- all_combine %>% as_tibble() %>% mutate(CoF = TOTAL_COST_CURRENT+INJURE*9.6e6*0.313+FATAL*9.6e6)
-all_combine$BA <- factor(all_combine$BA,levels=c('Before','After'),ordered = T)
+# all_combine = read.csv("all_combine.csv")
+# all_combine <- all_combine[,1:18]
+# all_combine <- all_combine %>% as_tibble() %>% mutate(CoF = TOTAL_COST_CURRENT+INJURE*9.6e6*0.313+FATAL*9.6e6)
+# all_combine$BA <- factor(all_combine$BA,levels=c('Before','After'),ordered = T)
 
 
 ggplot(all_combine, aes(factor(Year), CoF))+
@@ -182,16 +187,15 @@ ggplot(all_combine, aes(factor(Year), CoF))+
   scale_fill_brewer(type = "div",palette = "Set1")+
   scale_x_discrete(breaks=c(seq(1986,2017,by = 3)))
 # 
-# ggplot(GGT_all)+geom_histogram(aes(CoF, fill=BA),col='black')+theme_bw()+scale_x_log10()+facet_grid(~BA)+scale_fill_manual(values=c("coral2", "cornflowerblue"))+labs(title="Consequence of Failure Before and After the IM Rule", x="CoF ($) Log Scale",subtitle="PHMSA Onshore Gas Transmission incident data 1986-2017")+guides(fill=guide_legend(title="IM Rule"))
+# ggplot(byyear)+geom_histogram(aes(CoF, fill=BA),col='black')+theme_bw()+scale_x_log10()+facet_grid(~BA)+scale_fill_manual(values=c("coral2", "cornflowerblue"))+labs(title="Consequence of Failure Before and After the IM Rule", x="CoF ($) Log Scale",subtitle="PHMSA Onshore Gas Transmission incident data 1986-2017")+guides(fill=guide_legend(title="IM Rule"))
 
 ```
   
 The year-over-year analysis in Figure 7 shows that the median CoF has a slight downward trend, but there is a noticeable trend of large outliers as well. The aggregation by before and after in Figure 8 seems to confirm this shift noticed in the year-over-year where the median value has shifted downward slightly in the After group and more outliers at the upper end of the scale. The amount of overlap between the two distributions is not enough to be considered conclusive evidence of correlation between the two and the amount of shift observed could be just the random variation between the samples.
   
-```{r CoF Boxplot,echo=FALSE,warning=FALSE, message=FALSE,fig.height=3, fig.width=4.5,fig.cap="Figure 8: Range of CoF Before and After the IM Rule",dpi=300}
+```{r CoF Boxplot,echo=FALSE,warning=FALSE, message=FALSE,fig.width=4.5,fig.height=3.0,fig.cap="Figure 8: Range of CoF Before and After the IM Rule",dpi=300}
 
-#incid$Pre_Post <- factor(incid$Pre_Post,levels=c('Before','After'),ordered=T)
-#
+#byyear$BA <- factor(byyear$BA,levels=c('Before','After'),ordered=T)
 
 ggplot(all_combine)+
   geom_boxplot(aes(x=BA,y=CoF,fill=BA),outlier.shape = 1,alpha=0.9, outlier.alpha = 0.5)+
@@ -206,7 +210,7 @@ ggplot(all_combine)+
   
 The density Curve in Figure 9 is similar to a histogram but rather than the data being allocated to bins, the probability density is continuously plotted along the horizontal axis.  Figure 9 has both the Before and After curves plotted on the same graphic to show the amount of overlap and the similarity in distribution of data.
   
-```{r CoF Density Curve,echo=FALSE,warning=FALSE, message=FALSE,fig.height=3, fig.width=4.5,fig.cap="Figure 9: Density Plot of CoF Before and After the IM Rule",dpi=300}
+```{r CoF Density Curve,echo=FALSE,warning=FALSE, message=FALSE,fig.width=4.5,fig.height=3.0,fig.cap="Figure 9: Density Plot of CoF Before and After the IM Rule",dpi=300}
 
 ggplot(all_combine)+
   geom_density(aes(CoF,y=..density.., fill=BA),col='black', alpha=0.35)+
@@ -215,12 +219,13 @@ ggplot(all_combine)+
   #scale_fill_manual(values=c("coral2", "cornflowerblue"))+
   scale_fill_brewer(type = "div",palette = "Set1")+
   labs(title="CoF Before and After the IM Rule", x="CoF/Incident (Log Scale)")+
-  guides(fill=guide_legend(title="IM Rule"))+theme(legend.position = c(0.85,0.75),legend.title = element_text(size=rel(0.8)))
+  guides(fill=guide_legend(title="IM Rule"))+theme(legend.position = c(0.85,0.70),legend.title = element_text(size=rel(0.7)))
 ```
 
 Figures 8 and 9 demonstrate that the range of values of the two populations of CoFs are nearly identical, but there is definitely an increase in the number of incidents after the IM Rule, as shown in Figure 6. Stochastic count data, such as the number of incidents, fatalities and injuries in a given year, are commonly modeled as a Poisson process. The Poisson distribution allows a inference of the probability of seeing a certain count of something over a given time period based on the rate seen in the past. But by itself it does not tell you if the mean rate has significantly changed from one-time period to another; especially when there are wide variations from one year to the next. To represent this uncertainty, curves of the credible values are plotted for the mean of the two populations (before and after). The plots in Figure 10 show the range of credible values for the four count metrics of Serious and Significant Incidents, as well as Fatalities and Injuries, and the actual count for each year, in a separate plot for each metric.
   
 ```{r Before and After IM,echo=FALSE,,warning=FALSE, message=FALSE, fig.width=6.5,fig.cap="Figure 10: Range of Credible Values Before and After the IM Rule",fig.height=7,dpi=400}
+
 #byyear <- read.csv("byyear.csv")
 
 fatim <- ggplot(byyear)+
@@ -275,11 +280,11 @@ byy <- byyear %>% group_by(BA) %>%
   summarise(inj=sum(Injuries),fat=sum(Fatalities), ser=sum(Serious),
             sig=sum(Significant), count=length(Injuries))
 
-inj <- c(byy[[2,2]], byy[[1,2]]) #injury count####
-fat <- c(byy[[2,3]], byy[[1,3]]) #fatality count####
-ser <- c(byy[[2,4]], byy[[1,4]]) #Serious count####
-sig <- c(byy[[2,5]], byy[[1,5]]) #injury count####
-t <- c(byy[[2,6]], byy[[1,6]]) #time count####
+inj <- c(byy$inj[1], byy$inj[2]) #injury count####
+fat <- c(byy$fat[1], byy$fat[2]) #fatality count####
+ser <- c(byy$ser[1], byy$ser[2]) #Serious count####
+sig <- c(byy$sig[1], byy$sig[2]) #injury count####
+t <- c(byy$count[1], byy$count[2]) #time count####
 
 #Hard Coding numbers into gamma function ####
 INJ <- ggplot(data.frame(x=c(0,20)),aes(x=x))+
@@ -319,13 +324,13 @@ ggarrange(SER,SIG,Seryr,sigyr,FAT,INJ,fatim,injim,ncol=2,nrow = 4)
 
 ```
   
-It is evident that the Serious and Significant Incidents show obvious diversion of population means before and after the IM Rule, but in opposite directions. However, the trends for the two incident types had been trending in their respective directions for decades prior to the IM Rule. Therefore, it would be a spurious argument to say that IM was responsible for the increase or decrease in incident counts. The Injury and Fatality trends are less conclusive by mere observation alone. There is a noticeable downward trend in Injuries after the IM Rule with the exception of 2010, but it is uncertain if the shift is statistically significant. The shift in Fatalities is even less than Injuries.  It is likely that there has been no statistical change in the rate from before to after the IM Rule. To validate these observations, the typical tool in a statistician’s belt for this type of comparison is a t-test for continuous measures or a Poisson test for data made up of counts of something. As stated previously, these tests suffer from reliance on inferred probability distributions that may or may not be true and large outliers have undue influence on the results. Even when all the assumptions are met, the result is a p-value that tells you whether you should reject the null hypothesis (that there is no difference in the two populations) or not. You can never accept the null, i.e. you can never say that the two populations are the same - only whether they are significantly different or not.  
+It is evident that the Serious and Significant Incidents show obvious diversions of population means before and after the IM Rule, but in opposite directions. However, the trends for the two incident types had been trending in their respective directions for decades prior to the IM Rule. Therefore, it would be a spurious argument to say that IM was a causation of the increase or decrease in incident counts. The Injury and Fatality trends are less conclusive by mere observation alone. There is a noticeable downward trend in Injuries after the IM Rule with the exception of 2010, but it is uncertain if the shift is statistically significant. The shift in Fatalities is even less than Injuries.  It is likely that there has been no statistical change in the rate from before to after the IM Rule. To validate these observations, the typical tool in a statistician’s belt for this type of comparison is a t-test for continuous measures or a Poisson test for data consisting of counts of something. As stated previously, these tests suffer from reliance on inferred probability distributions that may or may not be true and large outliers have undue influence on the results. Even when all the assumptions are met, the resulting p-value that tells you whether you should reject the null hypothesis (that there is no difference in the two populations) or not. You can never accept the null, i.e. you can never say that the two populations are the same - only whether they are significantly different or not.  
   
-The more robust method employed here is a Hierarchical Bayesian Model (HBM). The specifics of how an HBM works is beyond the scope of this paper, but these types of models are very useful when the data is structured into related groups and you need to compare them.  The benefits of an HBM are that it allows you to quantify the uncertainties; large outliers do not have excessive influence on the results,and it can obtain relationships between individual observations and the population. In short, it bridges the gap between (i) considering all the observations as part of one single group with no distinction between them, and (ii) considering each group as a separate entity with no relation to each other. The output of an HBM is a range of credible values that quantifies the uncertainties based on the observations.
+The more robust method employed here is a Hierarchical Bayesian Model (HBM). The specifics of how an HBM works is beyond the scope of this paper, but these types of models are very useful when the data is structured into related groups and you need to compare them.  The benefits of an HBM are that it allows you to quantify the uncertainties; large outliers do not have excessive influence on the results,and it can obtain relationships between individual observations and the population. In short, it bridges the gap between (i) considering all the observations as part of one single group with no distinction between them, and (ii) considering each group as a separate entity with no relation to each other. The output of an HBM is a range of credible values that quantifies the uncertainties based on the observations.  
 
-For the incident data, an HBM will be used to infer not just whether there was a statistically significant change, but the size of change as well. Even though it is evident that there was a significant change in Serious and Significant Incidents, the analysis will still be used to quantify the magnitude of the change. Since there is such a disparity of scale between the different metrics (ranging from hundreds to single digits), the comparison will be made as the ratio of after to before. Therefore, a ratio of greater than one indicates an increase and less than one, a decrease in the rate from After to Before IM. The 95% highest density interval (HDI) will be used to represent the most credible range of values for each metric. If the 95% HDI of the ratio encompasses one, then that indication of no change in the population from one time period to the other.
+For the incident data, an HBM will be used to infer not just whether there was a significant change, but the size of change as well. Even though it is evident that there was a significant change in Serious and Significant Incidents, the analysis will still be used to quantify the magnitude of the change. Since there is such a disparity of scale between the different metrics (ranging from hundreds to single digits), the comparison will be made as the ratio of after to before. Therefore, a ratio of greater than one indicates an increase and less than one, a decrease in the rate from After to Before IM. The 95% highest density interval (HDI) will be used to represent the most credible range of values for each metric. If the 95% HDI of the ratio encompasses one, then that is evidence of no change in the population from one time period to the other and that the differences were not merely chance.
   
-```{r Poisson JAGS model, echo=FALSE, fig.height=5, fig.width=6.0, dpi=300, message=FALSE, warning=FALSE, include=TRUE, results="hide"}
+```{r Poisson JAGS model, echo=FALSE, fig.height=5, fig.width=6,fig.height=6, dpi=300, message=FALSE, warning=FALSE, include=TRUE, results="hide", fig.cap="Figure 11: Ratio of Rates Before and After IM"}
 
 
 #BA     Serious Significant Fatal Injure count
@@ -360,10 +365,10 @@ set.seed(329)
 #byyear <- read.csv("byyear.csv")  #read in the data
 byy <- byyear %>% group_by(BA) %>%
   summarise(inj=sum(Injuries),fat=sum(Fatalities), ser=sum(Serious),
-            sig=sum(Significant), count=length(Injuries))
+            sig=sum(Significant), count=n())
 
-x <- c(byy[[2,2]], byy[[1,2]]) #injury count
-t <- c(byy[[2,6]], byy[[1,6]]) #time count
+x <- c(byy$inj[1], byy$inj[2]) #injury count
+t <- c(byy$count[1], byy$count[2]) #time count
 
 rm(samples_inj) #remove old samples before running
 
@@ -395,7 +400,7 @@ injMCMC <- as_tibble(as.matrix(samples_inj))
 #byyear <- read.csv("byyear.csv")
 #byy <- byyear %>% group_by(BA) %>%summarise(inj=sum(Injuries),fat=sum(Fatalities), ser=sum(Serious),sig=sum(Significant))
 
-x <- c(byy[[2,3]], byy[[1,3]]) #fatality count
+x <- c(byy$fat[1], byy$fat[2]) #fatality count
 
 rm(samples_fat) #remove the old samples before running
 
@@ -411,7 +416,7 @@ fatMCMC <- as_tibble(as.matrix(samples_fat))
 # Setting up the data
 #byyear <- read.csv("byyear.csv")
 #byy <- byyear %>% group_by(BA) %>%summarise(inj=sum(Injuries),fat=sum(Fatalities), ser=sum(Serious),sig=sum(Significant))
-x <- c(byy[[2,5]], byy[[1,5]]) 
+x <- c(byy$sig[1], byy$sig[2]) 
 
 rm(samples_sig)
 
@@ -426,7 +431,7 @@ sigMCMC <- as_tibble(as.matrix(samples_sig))
 # Setting up the serious incident data
 #byyear <- read.csv("byyear.csv")
 #byy <- byyear %>% group_by(BA) %>%summarise(inj=sum(Injuries),fat=sum(Fatalities), ser=sum(Serious),sig=sum(Significant))
-x <- c(byy[[2,4]], byy[[1,4]]) 
+x <- c(byy$ser[1], byy$ser[2]) 
 
 rm(samples_ser) #remove previous samples
 
@@ -450,19 +455,22 @@ plotPost(serMCMC$rate_ratio, compVal = 1, main="Serious Incident Ratio",xlab=bqu
 
 ```
     
-The HDI for the ratio of fatailties is approximately centered on one, indicating that there is no change in the rate fo fatilites after the IM rule.  The HDI for the ratio of injuries does not include one it barely misses including it by about 0.01.  In practical terms there is no significant difference in 1 and 0.99 therefore it can be inferred that there likely has not been a significant change in the rate of injuries based on the data at this time.  Since the HDI of this metric is so close to one and the mean rate at 0.80 additional year's data may be required to make a firm conclusion.  The Significant and Serious incidents show an approximate 50% change in rates on average but in opposite directions.  With Significant incidents increasing and Serious decreasing.
-   
-Since the assumptions for a t-test are are not met, an HBM will be used based on a continuous distribution of values.  As in the previous analysis, if the credible range of the ratios includes one, then it is said to be no statistical difference between the two samples.  Note that since the consequences span several magnitudes of order, this analysis is based on the $log_{10}$ of the CoF.
+The HDI for the ratio of fatailties is approximately centered on one, indicating that there is evidence of no change in the rate for fatilites after the IM rule.  Even though the HDI for fatalities extends far past one in both directions it is not surprising given the typical annual rate is about two and a change in count of one in either direction in a given year is a 50% swing.  Therefore in the case of fatalities it would be reasonable to accept the null hypothesis that the rate is unchanged. 
   
-```{r Difference of means, echo=FALSE, warning=FALSE, message=FALSE,dpi=300, fig.cap="Figure 10: Difference of CoF Means", fig.width=4.5, fig.height=3}
+The HDI of Injury rates comes almost right up to the threshold of one at 0.99 which for practical purposes is equivalent to one. Therefore, based on the range of uncertainty for injuries we can't say that there has been a change in the annual rate. However with 98% of the distribution less than one and the most credible value at about 0.80 we can say that evidence is pointing in the direction of a reduction in the annual rate of injuries but we cannot make a conclusive statement at this time.  The best we can say in this case is that judgement is withheld as of now.  It could be argued that if the large outlier in injuries from the 2010 San Bruno incident were excluded, the rate almost certainly would show a decrease.  While that staement is true, discarding outliers simply because they don't fit a trend is skewing the results to get a desired outcome.  
+  
+The Serious and Significant incident rates show a average difference of about 50% from after to before IM in opposite directions and the entire HDI outside of the ratio of one.  This means that with very high certainty that there is a significant change in these incident rates.  
+  
+```{r Difference of means, echo=FALSE, warning=FALSE, message=FALSE,dpi=300, fig.cap="Figure 12: Difference of CoF Means", fig.width=4.5, fig.height=3}
+
 
 #library(BEST)
-# p_inj_mile <- BESTmcmc(GGT_all$Injuries[1:18],GGT_all$Injuries[19:32],numSavedSteps = 1e5)
+# p_inj_mile <- BESTmcmc(byyear$Injuries[1:18],byyear$Injuries[19:32],numSavedSteps = 1e5)
 # 
 # plotPost(p_inj_mile$mu1 - p_inj_mile$mu2,xlab=bquote(mu[Before]-mu[After]),main="Difference of Mean Injury Rate/Yr.")
 # 
 # #Fatalities Comparison
-# p_fat <- BESTmcmc(GGT_all$Fatalities[1:18],GGT_all$Fatalities[19:32],numSavedSteps = 2e5)
+# p_fat <- BESTmcmc(byyear$Fatalities[1:18],byyear$Fatalities[19:32],numSavedSteps = 2e5)
 # plotPost(p_fat$mu1 - p_fat$mu2,xlab=bquote(mu[Before]-mu[After]),main="Difference of Means for Fatalities")
 
 #Log10 CoF comparison
@@ -479,7 +487,7 @@ The HDI of Consequences includes one indicating that although the number of inci
 ###HCA Performance Measures
 One potential explanation for the lack of discernible difference, other than incident counts, between Before and After the IM Rule is that most of the Subpart O requirements only apply to HCAs, which only make up roughly 7% of transmission pipe nationally. If IM were having an effect, it would be evident in the performance measures and the incident rates within HCAs. The following plots will examine the number of leaks, failures and Significant Incidents per 1,000 miles of HCA. Because HCA mileage is much less than the total transmission mileage, it makes sense to normalize the count data to HCA mileage since small changes in the number of occurrences has a larger effect on the normalized rate. Note, there is no plot for Serious Incidents in HCAs because there has only been a total of four in the fourteen years of performance measures reporting.
   
-```{r performance measures ,echo=FALSE,message=FALSE, warning=FALSE, fig.width=5,fig.height=6,dpi=300,fig.cap="Figure 11: HCA Performance Measures"}
+```{r performance measures ,echo=FALSE,message=FALSE, warning=FALSE, fig.width=4.5,fig.height=6,dpi=300,fig.cap="Figure 13: HCA Performance Measures"}
 HCA=read.csv("HCA.csv")
 
 #failures in HCAs
@@ -509,7 +517,7 @@ ggarrange(lk, flr, sig,nrow = 3)
   
 Contrary to expectations, the leaks and failures in HCAs appear to be increasing over time. The rate of Significant Incidents does not demonstrate any apparent trend over time. Since HCAs were not defined prior to publishing to the IM Rule, there is no way to compare these rates to those predating the IM Rule. However, a reasonable assumption is that the rates would be declining as IM programs mature and most HCAs have had multiple rounds of assessments. To assess whether these observed changes are more than chance, the performance measures were tested just as the overall incident data to see if there is a significant change in the rate of occurrence from the first seven years of performance reporting to the most recent seven years. The results are reported as credible range of the 95% HDI for each parameter. As before, since we are testing the ratio of the two rates of occurrence, if the range of credible values includes one, then that is evidence there is no difference between the two groups.
     
-```{r MCMC Analysis of performance measures, message=FALSE, warning=FALSE,echo=FALSE,dpi=300,fig.width=4.5, fig.height=6,fig.cap="Figure 12: Results of HBM Ratio of Means Test"}
+```{r MCMC Analysis of performance measures, message=FALSE, warning=FALSE,echo=FALSE,dpi=300 ,fig.cap="Figure 14: Results of HBM Ratio of Means Test", fig.height=6, fig.width=4.5}
 
 par(mfrow=c(3,1))
 #leaks in HCAs####
@@ -541,9 +549,9 @@ plotPost(best_sig_hca$mu2/ best_sig_hca$mu1, compVal = 1,
   
 The 95% HDI of HCA failures and Significant Incidents includes one, therefore it can be inferred that there is no change in the mean rates for those metrics based on the data between the first and second half of performance measures history.  
   
-Although the HDI of the ratio of leaks does not cross one, it barely misses it by less than 0.1. As a practical matter, this is equivalent to one; so we could say that given the range uncertainty there is some evidence of no change. But with over 99% of the samples greater than one, this is an indicator that the annual leak rates have likely increased in HCAs for the more recent half of the dataset, but the size of the change relative to the range of values observed is small at this time and more data needs to be collected before definitive statements can be made. The HCA leak rates were further compared to the leak rates on all transmission pipe. To compare all transmission pipe leak rates to HCA leak rates, the entire date range from the HCA performance measures was compared against the transmission leak rate for the same timeframe and then the ratio of the two rates were plotted in Figure 13.
+Although the HDI of the ratio of leaks does not cross one, it barely misses it by less than 0.1. As a practical matter, this is equivalent to one; so we could say that given the range uncertainty there is some evidence of no change. But with over 99% of the samples greater than one, this is an indicator that the annual leak rates have likely increased in HCAs for the more recent half of the dataset, but the size of the change relative to the range of values observed is small at this time and more data needs to be collected before definitive statements can be made. The normalized HCA leak rates were further compared to the leak rates on all transmission pipe. To compare all transmission pipe leak rates to HCA leak rates, the entire date range from the HCA performance measures was compared against the transmission leak rate for the same timeframe and then the ratio of the two rates were plotted in Figure 13.
 
-   
+
 ```{r HCA vs non-hca leak rates,echo=FALSE,message=FALSE, warning=FALSE,results="hide", include=TRUE, fig.cap="Figure 13: Ratio of Leak Rates per 1,000 miles for HCAs and Non-HCAs", fig.width=4.5, fig.height=3, dpi=300}
 
 # library(readxl)
@@ -596,6 +604,7 @@ Although the HDI of the ratio of leaks does not cross one, it barely misses it b
 
 #leaks in HCAs vs. Non-HCA####
 
+set.seed(329)
 hca_perform <- read.csv("hca_perform.csv")
 best_lk_hca_nhca <- BESTmcmc(hca_perform$lk_1k_hca[7:14],hca_perform$lk_1k_nonhca[7:14],numSavedSteps = 2e4)
 
@@ -604,24 +613,31 @@ plotPost(best_lk_hca_nhca$mu1/best_lk_hca_nhca$mu2, compVal = 1,
          cex.lab = 1.75, main = "Ratio of Leak Rates")
 ```
 
-Prior to 2010, HCA leaks were not reported separate to non-HCA leaks in the annual report. Although HCA leaks were reported in the performance measures since 2004, there was no category of non-HCA leaks recorded.  Therefore, Figure 13 is based on 2010 forward.  The mean HCA leak rate per 1,000 miles is nearly 70% higher than non-HCAs with a 95% HDI that extends from approximately 1.3 to 2.1.  Since the entire credible range of the ratio of leak rates excludes one, it can be concluded that the normalized leak rate in HCA's is substantially higher than non-HCAs over the same period.
+Prior to 2010, HCA leaks were not reported separate to non-HCA leaks in the annual report. Although HCA leaks were reported in the performance measures since 2004, there was no category of non-HCA leaks recorded.  Therefore, Figure 13 is based on 2010 forward.  The mean HCA leak rate per 1,000 miles is nearly 70% higher than non-HCAs with a 95% HDI that extends from approximately 1.3 to 2.1.  Since the entire credible range of the ratio of leak rates excludes one, it can be concluded that the normalized leak rate in HCA's is higher than non-HCAs over the same period.
 
 ###Conclusion
-The only measure that has shown measurable improvement from before the IM Rule is Serious Incidents which have been decreasing for nearly two decades prior to it. Every other measure, has either gotten worse or there is insufficient evidence to support a statistical difference.  . This is especially true for the HCA performance measures which in each case have increased since the beginning of IM. Likewise, the leak rate in HCAs is almost 80% higher when compared to the entire transmission pipeline population. The Significant Incidents results reflect a large increase in the years after the IM Rule, but they were trending that direction since 1986. Because Serious Incidents (i.e., incidents that involve Injuries and/or Fatalities) have not shown any discernible change, it can be concluded that if the total number of Injuries and Fatalities is unchanged and the number of Serious Incidents has gone down, then the number of Injuries and Fatalities per incident has increased. HCA leaks and failures have increased steadily and Significant Incidents in HCAs are roughly unchanged.
+The only measure that has shown measurable improvement from before the IM Rule is Serious Incidents which have been decreasing for nearly two decades prior to it. Every other measure, has either gotten worse or there is insufficient evidence to support a judgement of statistical difference.  This is especially true for the HCA performance measures which in each case have increased since the beginning of IM. Likewise, the leak rate in HCAs is almost 70% higher when compared to the entire transmission pipeline population. The Significant Incidents results reflect a large increase in the years after the IM Rule, but they were trending that direction since 1986. Because Serious Incidents (i.e., incidents that involve Injuries and/or Fatalities) have not shown any discernible change, it can be concluded that if the total number of Injuries and Fatalities is unchanged and the number of Serious Incidents has gone down, then the number of Injuries and Fatalities per incident has increased. HCA leaks and failures have increased steadily and Significant Incidents in HCAs are roughly unchanged.
   
 It is impossible to prove what has been prevented through IM or if the metrics would be worse if there were no such thing as it. But what can be concluded with confidence is that there has not been any quantifiable improvement in injuries or fatalities and, in the case of Significant Incidents and consequences, there has been a large increase. On that basis, there is not anything in these metrics to suggest that, either in HCAs or in the transmission system overall, where the Integrity Management Rule has produced an improvement in pipeline safety. Indeed, the NTSB came to a similar conclusion in a Safety Study published in January of 2015 [^5], “While the Pipeline and Hazardous Materials Safety Administration’s gas integrity management requirements have kept the rate of corrosion failures and material failures of pipe or welds low, there is no evidence that the overall occurrence of gas transmission pipeline incidents in high consequence area pipelines has declined.” The reasons for this lack of measurable improvement could be many, as incidents are almost never attributable to a single cause but rather a chain of interrelated events. But, in looking at the leaks and failures in HCAs, a convincing case is made that the IM Rule has possibly made pipelines less safe.
 
-Operators, even before the IM Rule, were making great strides in improving pipeline safety.  After the IM Rule, Operators were forced to expend considerable resources on a small subset of their entire system (i.e., HCAs), thereby restricting resources which could be allocated outside HCAs. Pipelines were heavily regulated even before the Pipeline Safety Act of 2002.  A partial list of laws related to pipeline safety prior to this includes: Natural Gas Pipeline Safety Act of 1968 (amended in 1976), Pipeline Safety Reauthorization Act of 1988, Pipeline Safety Act of 1992, and Accountable Pipeline Safety and Partnership Act of 1996; additionally, two more pipeline safety laws have passed since 2002. Each law added a new layer of requirements and complexity to existing mandates.  The IM rule has not lowered overall risk to the public but merely redistributed it from high population areas to lower.
+Operators, even before the IM Rule, were making great strides in improving pipeline safety.  After the IM Rule, Operators were forced to expend considerable resources on a small subset of their entire system (i.e., HCAs), thereby restricting resources which could be allocated outside HCAs. Pipelines have been heavily regulated even before the Pipeline Safety Act of 2002.  A partial list of laws related to pipeline safety prior to this includes: Natural Gas Pipeline Safety Act of 1968 (amended in 1976), Pipeline Safety Reauthorization Act of 1988, Pipeline Safety Act of 1992, and Accountable Pipeline Safety and Partnership Act of 1996; additionally, two more pipeline safety laws have passed since 2002. Each law added a new layer of requirements and complexity to existing mandates.  The IM rule has not lowered overall risk to the public but merely redistributed it from high population areas to lower.
   
 The explanation for lack of measurable improvement may not reside in engineering or risk management or even legislation, but instead in economics. In economics the concept of cost-benefit analysis is interrelated with risk. The benefit (risk reduction) received for additional expenditure is not a straight line; it is a vertical convex curve that represents the total cost of ownership (TCO). The components of TCO composed of the sum of operating and maintenance costs as well as certain fixed costs such as insurance.  The probability of failure (PoF) is the horizontal axis, and cost plotted on the vertical axis. When the PoF is high, the TCO is also high because of the high operating cost; then as the PoF starts to be reduced, the TCO also gradually goes down as the operating costs are reduced faster than the increase in maintenance cost. Then, at some PoF the TCO reaches a minimum and starts increasing. Beyond that point the costs increase disproportionately to the PoF reduction and reduction in operating cost. Then there is a steep increase in TCO with minimal reduction in PoF.  
 
-```{r,out.width='20%',out.height='20%', echo=FALSE, fig.cap="Figure 14: Total Cost of Ownership"}
+```{r, out.width= "150px", echo=FALSE, fig.cap="Figure 16: Total Cost of Ownership"}
 knitr::include_graphics("TCO_curve.jpg")
 ```
 
 This is a possible scenario we find ourselves in today where the PoF of most pipelines were already quite low and that IM has only driven up the cost of ownership across the board with little to no reduction in risk.  This area of the curve is what is known as ALARP, an acronym that stands for, "as low as reasonably practicable".  This is the point where risk has been reduced to the point where the cost of additional risk reduction is "grossly disproportionate" to benefit gained.  This is the basis of all modern design codes; that is to design and maintain to the lowest risk that is practicable because by trying to lower the risk past that threshold inadvertently increases risk in other areas of society.  For instance, high-rise buildings are not designed to withstand a direct impact from a large tornado because such an impact is remote and the cost to design and build the high-rise would "grossly disproportionate" to any benefit gained.  It is this situation that we might find ourselves in now with IM - it has created second-order effects where the risk might be reduced on one area of the pipeline but since it has driven up the cost across the board, it has the unintended consequence of increased risk elsewhere with no net effect.  
+  
+Peter Bernstein in his bestselling book on the subject of risk said, "The essence of risk management lies in maximizing the areas where we have some control over the outcome while minimizing the areas where we have absolutely no control over the outcome and the linkage between effect and cause is hidden from us."[^6] With respect to IM, however, opposite approach to risk management appears to have been taken i.e., the notion that yet another rule or piece of legislation will somehow prescribe future risk.  Although the desired, "linkage of effect and cause" is either unknown or not controllable via such mandates.  This is typical of a hierachist view, that the responsibility of managing risk falls in the exclusive domain those in authority rather than the people who live amongst and have intimate knowledge of the pipeline system.
+```{r, echo=FALSE}
+#scratch pad
 
-Peter Bernstein in his bestselling book on the subject of risk said, "The essence of risk management lies in maximizing the areas where we have some control over the outcome while minimizing the areas where we have absolutely no control over the outcome and the linkage between effect and cause is hidden from us."[^6] With respect to IM, however, opposite approach to risk management appears to have been taken i.e., the notion that yet another rule or piece of legislation will somehow prescribe future risk.  Although the desired, "linkage of effect and cause" is either unknown or not controllable via such mandates.  This is a hierachist view that the responsibility of managing risk falls in the exclusive domain those in authority rather than the people who live amongst and have intimate knowledge of the pipeline system.
+ #excfat <- all_combine %>% filter(cause=="EXCAVATION DAMAGE",SIGNIFICANT=="YES") %>% group_by(Year)%>% summarise(fatal=sum(FATAL))
+
+#allfat <- all_combine %>% filter(SIGNIFICANT=="YES") %>% group_by(Year)%>% summarise(fatal=sum(FATAL,na.rm=T))
+```
 
   
 [^5]: National Transportation Safety Board. 2015. Integrity Management of Gas Transmission Pipelines in High Consequence Areas. Safety Study NTSB/SS-15/01. Washington, DC.
